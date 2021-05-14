@@ -1,0 +1,139 @@
+{% extends 'commonbase.html' %}
+{% block content %}
+<h2 class="text-center alert alert-danger">Vinosanse Data Management</h2>
+<div class="row">
+    <!-- <div class="col-sm-4"> -->
+        <h4 class="text-enter alert alert-info"> Add Today's Nifty Data </h4>
+        <div class="form-group">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ niftyform.as_p }}
+                <input type="submit" class="btn btn-success" value="Add" name="btnform1">
+            </form>
+        </div>
+
+    <!-- </div> -->
+
+    <div><br></div>
+
+    <!-- <div class="col-sm-5 offset-4"> -->
+        <h4 class="text-enter alert alert-info"> Add Today's BankNifty Data </h4>
+        <div class="form-group">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ bankniftyform.as_p }}
+                <input type="submit" class="btn btn-success" value="Add" name="btnform2">
+            </form>
+        </div>
+    <!-- </div> -->
+
+
+    <div><br></div>
+
+    <div class="col-sm-12">
+        <h4 class="text-center alert alert-info"> Nifty Information</h4>
+        {% if niftydata %}
+
+
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Signal</th>
+                <th scope="col">Entry</th>
+                <th scope="col">Target</th>
+                <th scope="col">Advisory</th>
+                <!-- <th scope="col">Status</th> -->
+              </tr>
+            </thead>
+            <tbody>
+                {% for nf in niftydata %}
+              <tr>
+                <th scope="row">{{nf.id}}</th>
+                <td>{{nf.date}}</td>
+                <td>{{nf.time}}</td>
+                <td>{{nf.signal}}</td>
+                <td>{{nf.entry}}</td>
+                <td>{{nf.target}}</td>
+                <td>{{nf.advisory}}</td>
+                <!-- <td>{{st.status}}</td> -->
+                <td>
+                    <a href="#" class="btn btn-warning">Edit</a>
+                    <form action="#" method="POST" class="d-inline">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-danger" value="Delete">
+                    </form>
+                    <!-- <a href="#" class="btn btn-danger btn-sm">Delete</a> -->
+                </td>
+                
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+        {% else %}
+
+        <h4 class="text-center alert alert-warning"> No Records</h4>
+
+        {% endif %}
+    </div>
+
+    <div class="col-sm-12">
+        <h4 class="text-center alert alert-info">Bank Nifty Information</h4>
+        {% if bankniftydata %}
+
+
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Signal</th>
+                <th scope="col">Entry</th>
+                <th scope="col">Target</th>
+                <th scope="col">Advisory</th>
+                <!-- <th scope="col">Status</th> -->
+              </tr>
+            </thead>
+            <tbody>
+                {% for bnf in bankniftydata %}
+              <tr>
+                <th scope="row">{{bnf.id}}</th>
+                <td>{{bnf.date}}</td>
+                <td>{{bnf.time}}</td>
+                <td>{{bnf.signal}}</td>
+                <td>{{bnf.entry}}</td>
+                <td>{{bnf.target}}</td>
+                <td>{{bnf.advisory}}</td>
+                <!-- <td>{{st.status}}</td> -->
+                <td>
+                    <a href="#" class="btn btn-warning">Edit</a>
+                    <form action="#" method="POST" class="d-inline">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-danger" value="Delete">
+                    </form>
+                    <!-- <a href="#" class="btn btn-danger btn-sm">Delete</a> -->
+                </td>
+                
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+        {% else %}
+
+        <h4 class="text-center alert alert-warning"> No Records</h4>
+
+        {% endif %}
+    </div>
+
+
+ 
+
+</div>
+
+
+{% endblock content %}

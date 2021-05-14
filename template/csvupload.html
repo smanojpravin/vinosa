@@ -1,0 +1,511 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+ 
+
+
+  <head>
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600,700' rel='stylesheet' type='text/css'> 
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  </head>
+
+<style>
+
+
+/* Upload Table style */
+@import "https://fonts.googleapis.com/css?family=Montserrat:300,400,700";
+
+table.rwd-table {
+    margin-left:auto; 
+    margin-right:auto;
+  }
+
+.rwd-table {
+  margin-left:auto; 
+  margin-right:auto;
+  margin: 1em 0;
+  min-width: 300px;
+ 
+}
+.rwd-table tr {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.rwd-table th {
+  display: none;
+}
+.rwd-table td {
+  display: block;
+}
+.rwd-table td:first-child {
+  padding-top: .5em;
+}
+.rwd-table td:last-child {
+  padding-bottom: .5em;
+}
+.rwd-table td:before {
+  content: attr(data-th) ": ";
+  font-weight: bold;
+  width: 6.5em;
+  display: inline-block;
+}
+@media (min-width: 480px) {
+  .rwd-table td:before {
+    display: none;
+  }
+}
+.rwd-table th, .rwd-table td {
+  text-align: left;
+}
+@media (min-width: 480px) {
+  .rwd-table th, .rwd-table td {
+    display: table-cell;
+    padding: .25em .5em;
+  }
+  .rwd-table th:first-child, .rwd-table td:first-child {
+    padding-left: 0;
+  }
+  .rwd-table th:last-child, .rwd-table td:last-child {
+    padding-right: 0;
+  }
+}
+
+
+
+.rwd-table {
+  background: #34495E;
+  color: #fff;
+  border-radius: .4em;
+  overflow: hidden;
+}
+.rwd-table tr {
+  border-color: #46637f;
+}
+.rwd-table th, .rwd-table td {
+  margin: .5em 1em;
+}
+@media (min-width: 480px) {
+  .rwd-table th, .rwd-table td {
+    padding: 1em !important;
+  }
+}
+.rwd-table th, .rwd-table td:before {
+  color: #dd5;
+}
+
+
+/* submit button style */
+.submit, .clear{
+
+  width:100px;
+  height:40px;
+  background-color:#dc6519;
+  border:2px solid #FFFFFF;
+  border-radius:10px;
+  color:#FFFFFF;
+  font-size:17px;
+  cursor:pointer !important;
+  outline:none;
+  text-align: center;
+}
+
+.submit:hover, .clear:hover{
+  background-color:#34495E;
+}
+
+.buttonHolder{ text-align: center; }
+
+
+#button{
+	display:block;
+	margin:20px auto;
+	padding:10px 30px;
+	background-color:#eee;
+	border:solid #ccc 1px;
+  cursor: pointer;
+}
+
+
+/* style for page loader */
+#overlay{	
+	position: fixed;
+	top: 0;
+  left : 0;
+	z-index: 100;
+	width: 100%;
+	height:100%;
+	display: none;
+	background: rgba(0,0,0,0.6);
+}
+.cv-spinner {
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;  
+}
+.spinner {
+	width: 40px;
+	height: 40px;
+	border: 4px #ddd solid;
+	border-top: 4px #2e93e6 solid;
+	border-radius: 50%;
+	animation: sp-anime 0.8s infinite linear;
+}
+@keyframes sp-anime {
+	100% { 
+		transform: rotate(360deg); 
+	}
+}
+.is-hide{
+	display:none;
+}
+
+/* style for Loading progress */
+
+#progress {
+    border: 1px solid #0099CC;
+    padding: 1px;
+    position: relative;
+    border-radius: 3px;
+    margin: 10px;
+    text-align: left;
+    background: #fff;
+    box-shadow: inset 1px 3px 6px rgba(0, 0, 0, 0.12);
+}
+#progress .progress-bar{
+	height: 20px;
+    border-radius: 3px;
+    background-color: #f39ac7;
+    width: 0;
+    box-shadow: inset 1px 1px 10px rgba(0, 0, 0, 0.11);
+}
+#progress .status{
+	top:3px;
+	left:50%;
+	position:absolute;
+	display:inline-block;
+	color: #000000;
+}
+
+
+/* Tooltips helpers */
+.tooltip{ float:left; top:2px; left:7px; position:relative; z-index:2; }
+.tooltip:hover{ z-index:3; }
+.tooltip > span{ display:inline-block; width:16px; height:16px; line-height:16px; font-size:0.9em; font-weight:bold; text-align:center; color:#FFF; cursor:help; background-color:#00AEEF; position:relative; border-radius:10px; }
+.tooltip .content{ text-transform: capitalize ;  opacity:0; width:200px; background-color:#333; color:#FFF; font-size:0.9em; position:absolute; top:0; left:20px; padding:8px; border-radius:6px; pointer-events:none;  }
+.tooltip p{ padding:0; }
+.tooltip.down .content{ left:auto; right:0; top:30px; }
+.tooltip:hover .content{ opacity:1; left:36px; }
+.tooltip .content b{ height:0; width:0; border-color:#333 #333 transparent transparent; border-style:solid; border-width:9px 7px; position:absolute; left:-14px; top:8px; }
+.tooltip.down .content b{ left:auto; right:6px; top:-10px; border-width:5px; border-color:transparent #333 #333 transparent; }
+
+
+
+</style>
+
+
+ <body>
+
+   <!--File Upload Form -->
+  <form  id="uploadForm" method="POST" action="{% url 'UploadSuccess' %}" data-week-url="{%url 'load_week_upload' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <table class="rwd-table">
+      <tr>
+        <!-- File1 - Before -->
+        
+        <td data-th="Before">
+
+          <div class='tooltip help'>
+          <span>?</span> <span1>User Report</span1>
+            <div class='content'>
+              <b></b>
+              <p>Data Monitor - Active User Audit Report Part1</p>
+            </div>
+          </div> 
+
+        </td>
+        <td id ="Beforedata">{{ form.Before }} </td>
+        <td data-thh="BeforeProgressbar"> <div id="progress1"><div class="progress-bar"></div ><div class="status"></div></div> </td>
+      </tr>
+
+      <!-- <tr> -->
+        <!-- File2 From -->
+        <!-- <td data-th="From">
+          <div class='tooltip help'>
+            <span>?</span> <span1>Part 2</span1>
+              <div class='content'>
+                <b></b>
+                <p>Data Monitor - Active User Audit Report Part2</p>
+              </div>
+          </div> 
+        </td>
+
+        <td id="Fromdata">{{ form.From }}</td>
+        <td data-thh="FromProgressbar"> <div id="progress2"><div class="progress-bar"></div ><div class="status"></div></div> </td>
+
+      </tr> -->
+
+      <tr>
+        <!-- File3 Audit -->
+        <td data-th="Audit Report">
+          <div class='tooltip help'>
+            <span>?</span> <span1>Audit Report</span1>
+              <div class='content'>
+                <b></b>
+                <p>Data Monitor - User Login Audit Report</p>
+              </div>
+          </div> 
+          
+          </td>
+        <td id="AuditReportdata">{{ form.AuditReport }}</td>
+        <td data-thh="AuditProgressbar"> <div id="progress3"><div class="progress-bar"></div ><div class="status"></div></div> </td>
+      </tr>
+
+
+      <tr>
+        <!-- File3 Audit -->
+        <td data-th="ReportYear">ReportYear</td>
+         <td id="ReportYear">      <select name="ReportYear" required="" id="id_ReportYear">
+          <option value="" selected="">---------</option>
+        
+          <option value="2020">2020</option>
+        
+          <option value="2021">2021</option>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+
+        
+        </select>
+      </td>
+      </tr>
+
+      <tr>
+        <!-- File3 Audit -->
+        <td data-th="ReportWeek">ReportWeek</td>
+         <td id="ReportWeekdata">{{ form.ReportWeek }}</td>
+      </tr>
+
+
+ 
+    </table>
+    <div class="buttonHolder">
+      <input id="submit" class="submit" type="submit" value="submit" />
+      <!-- <input class="submit" type="submit" value="submit" onclick = "clearcontent('id_slot')"> -->
+      <input class="clear"  type="reset"  value="Clear" onclick = "clearcontent('progress3','progress1','progress2')">
+    </div>
+
+</form>
+
+
+
+
+<div id="overlay">
+	<div class="cv-spinner">
+		<span class="spinner"></span>
+	</div>
+</div>
+
+
+    <script>
+
+
+var outButton = document.querySelector('.click'),
+    pop = document.getElementById('click_button');
+var main = document.getElementById("window");
+var shadow = document.querySelector("body");
+var hide = document.getElementById("close");
+
+
+
+$(function simulator_FB () {
+$('.pop-up').hide();
+$('.pop-up').fadeIn(1000);
+$('.close-button').click(function (e) {
+$('.pop-up').fadeOut(700);
+$('#overlay').removeClass('blur-in');
+$('#overlay').addClass('blur-out');
+e.stopPropagation();
+});
+});
+
+
+function simulator_FB_close (){
+  "use strict"
+  main.style.display = "none";
+   shadow.style.backgroundColor = "#FFF"
+
+}
+
+$("#id_ReportYear").change(function() { 
+              $("#overlay").show()
+            var url = $("#uploadForm").attr("data-week-url")
+            var weekdata = $(this).val();
+            // console.log(mydata); // it's only for test
+            $.ajax({
+                url: url,
+                data: {
+                  'ReportWeek':weekdata
+                },
+                success: function(data) {
+                    console.log(url);
+                    console.log("Manoj")
+                    $("#id_ReportWeek").html(data); 
+                    $("#id_weekdemo").html(data);
+                    
+                    $("#overlay").hide()
+  
+                    
+                },
+
+            });
+            return false;
+        });
+
+
+function clearcontent(elementID) { 
+                    document.getElementById(elementID).innerHTML = ""; 
+                } 
+
+        //on form submit
+        $('#uploadForm').submit(function(){
+          $.ajax({
+            type: 'GET',
+            success: function(data){
+              console.log(data);
+              $("#overlay").fadeIn(300);
+            }
+          }).done(function() {
+            setTimeout(function(){
+              $("#overlay").fadeOut(300);
+            },500000);
+          });
+        });	
+      // });
+
+//jQuery Ajax to Post form data
+    $(document).ready(function() {
+    $("#Beforedata").change(function() {
+        $("#overlay").show()
+        var formData = new FormData($('#data')[0]);
+        console.log(formData);
+        $.ajax({
+            url: "/echo/html/",
+            type: 'POST',
+            data: formData,
+            xhr: function() {
+              //upload Progress
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        console.log(percentComplete);
+                        $("#progress1" +" .progress-bar").css("width", + (Math.round(percentComplete * 100)) +"%");
+			                	$("#progress1" + " .status").text((Math.round(percentComplete * 100)) +"%");
+                        $("#overlay").hide()
+                        // $('#status2').html('<b> Uploading -> ' + (Math.round(percentComplete * 100)) + '% </b>');
+                    }
+                }, false);
+                return xhr;
+            },
+
+            // success: function(data) {
+            //     $("#status").html('UPLOADED!!');
+            // },
+
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+        return false;
+    });
+});
+
+//jQuery Ajax to Post form data
+// $(document).ready(function() {
+//     $("#Fromdata").change(function() {
+//       $("#overlay").show()
+//         var formData = new FormData($('#data')[0]);
+//         console.log(formData);
+//         $.ajax({
+//             url: "/echo/html/",
+//             type: 'POST',
+//             data: formData,
+//             //upload Progress
+//             xhr: function() {
+//                 var xhr = new window.XMLHttpRequest();
+//                 xhr.upload.addEventListener("progress", function(evt) {
+//                     if (evt.lengthComputable) {
+//                         var percentComplete = evt.loaded / evt.total;
+//                         console.log(percentComplete);
+//                         $("#progress2" +" .progress-bar").css("width", + (Math.round(percentComplete * 100)) +"%");
+// 			                	$("#progress2" + " .status").text((Math.round(percentComplete * 100)) +"%");
+//                         $("#overlay").hide()
+//                         // $('#status2').html('<b> Uploading -> ' + (Math.round(percentComplete * 100)) + '% </b>');
+//                     }
+//                 }, false);
+//                 return xhr;
+//             },
+
+//             // success: function(data) {
+//             //     $("#status").html('UPLOADED!!');
+//             // },
+
+//             cache: false,
+//             contentType: false,
+//             processData: false
+//         });
+//         return false;
+//     });
+// });
+
+//jQuery Ajax to Post form data
+$(document).ready(function() {
+    $("#AuditReportdata").change(function() {
+      $("#overlay").show()
+        var formData = new FormData($('#data')[0]);
+        console.log(formData);
+        $.ajax({
+            url: "",
+            type: 'POST',
+            data: formData,
+            xhr: function() {
+              //upload Progress
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        console.log(percentComplete);
+                        $("#progress3" +" .progress-bar").css("width", + (Math.round(percentComplete * 100)) +"%");
+			                	$("#progress3" + " .status").text((Math.round(percentComplete * 100)) +"%");
+                        $("#overlay").hide()
+                        // $('#status2').html('<b> Uploading -> ' + (Math.round(percentComplete * 100)) + '% </b>');
+                    }
+                }, false);
+                return xhr;
+            },
+
+            // success: function(data) {
+            //     $("#status").html('UPLOADED!!');
+            // },
+
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+        return false;
+    });
+});
+</script>
+
+</body>
+</html>
+
+{% endblock %}

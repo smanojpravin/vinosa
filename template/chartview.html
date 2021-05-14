@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script> 
+    <!-- include PDFMake-->
+
+    <script src="https://www.amcharts.com/lib/4/amcharts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/serial.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/light.js"></script>
+
+    <script src="//www.amcharts.com/lib/4/deps/pdfmake.js"></script>
+    {% if org_list > 1 %}
+
+    <div id="Chart1"></div>
+    <div id="Chart2"></div>
+    <div id="Chart3"></div>
+    <div id="Chart4"></div>
+    <div id="Chart5"></div>
+    <button type="button" onclick="savePDF();">Export to PDF</button>
+     {% else%} 
+    <div id="Chart1"></div>
+
+    {%endif%}
+
+
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+#Chart1 {
+  width: 100%;
+  height: 500px;
+}  
+
+#Chart2 {
+  width: 100%;
+  height: 500px;
+}  
+
+
+#Chart3 {
+  width: 100%;
+  height: 500px;
+}  
+
+
+#Chart4 {
+  width: 100%;
+  height: 500px;
+}  
+
+#Chart5 {
+  width: 100%;
+  height: 500px;
+}  
+
+
+
+
+</style>
+
+</head>
+<body>
+<script type="text/javascript">
+
+
+    /**
+     * ---------------------------------------
+     * This demo was created using amCharts 4.
+     * 
+     * For more information visit:
+     * https://www.amcharts.com/
+     * 
+     * Documentation is available at:
+     * https://www.amcharts.com/docs/v4/
+     * ---------------------------------------
+     */
+    var org_list = '{{ org_list | safe }}'
+
+    console.log(org_list)
+
+    '{% if org_list < 1 %}'
+
+    console.log('single')
+    // Single Chart
+
+    var myData = '{{array |safe}}'
+
+    var org = '{{org |safe}}'
+
+
+    myData = JSON.parse( myData );
+
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    am4core.disposeAllCharts();
+    // Create chart instance
+    var chart1 = am4core.create("Chart1",am4charts.XYChart);
+
+    // Export
+    chart1.exporting.menu = new am4core.ExportMenu();
+
+    
+    var title = chart1.titles.create();
+    title.text = org+" - Weekly";
+    title.fontSize = 25;
+    title.marginBottom = 30;
+    
+    
+    /* Create value axis */
+    /* Chart */
+    var valueAxis1 = chart1.yAxes.push(new am4charts.ValueAxis());
+    valueAxis1.min = 0;
+    // valueAxis1.max = 2500;
+    valueAxis1.renderer.minGridDistance = 30;
+    
+    var valueAxis2 = chart1.yAxes.push(new am4charts.ValueAxis());
+    valueAxis2.min = 0;
+    valueAxis2.max = 100;
+    valueAxis2.renderer.minGridDistance = 30;
+    valueAxis2.renderer.opposite = true;
+    valueAxis2.renderer.grid.template.disabled = true;
+    valueAxis2.renderer.labels.template.adapter.add("text", function(text) {
+      if ((text > 100) || (text < 0)) {
+        return "";
+      }
+      else {
+        return text;
+        // return text + "%";
+      }
+    })
+    
+    // Add legend
+    chart1.legend = new am4charts.Legend();
+    chart1.legend.position = "Bottom";
+    
+    
+    /* Create axes */
+    var categoryAxis = chart1.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "Week";
+    categoryAxis.renderer.minGridDistance = 30;
+    
+    
+    
+    /* Create series1 */
+    var columnSeries1 = chart1.series.push(new am4charts.ColumnSeries());
+    columnSeries1.dataFields.categoryX = "Week";
+    columnSeries1.dataFields.valueY = "Active";
+    columnSeries1.yAxis = valueAxis1;
+    columnSeries1.name = org+" Active";
+    columnSeries1.fill = am4core.color("#ffbf00");
+    columnSeries1.stroke = am4core.color("rgba(122,122,122,0.1)");
+    columnSeries1.columns.template.width = am4core.percent(30);
+    columnSeries1.clustered = false;
+    columnSeries1.columns.template.dx = -20;
+    
+    /* Create series2 */
+    var columnSeries2 = chart1.series.push(new am4charts.ColumnSeries());
+    columnSeries2.name = org+" Logged In";
+    columnSeries2.fill = am4core.color("#FFFF00");
+    columnSeries1.yAxis = valueAxis1;
+    columnSeries2.stroke = am4core.color("rgba(122,122,122,0.1)");
+    columnSeries2.dataFields.valueY = "Logged In";
+    columnSeries2.dataFields.categoryX = "Week";
+    columnSeries2.columns.template.width = am4core.percent(30);
+    columnSeries2.clustered = false;
+    
+    var gradient = new am4core.LinearGradient();
+    gradient.stops.push({color:am4core.color("#0052a1")})
+    gradient.stops.push({color:am4core.color("#0052a1")})
+    gradient.rotation = 90;
+    columnSeries2.fill = gradient;
+    columnSeries2.columns.template.tooltipText = "{Logged In}: [bold]{valueY}[/]%";
+    
+    
+    /* Create series3 */
+    var lineSeries1 = chart1.series.push(new am4charts.LineSeries());
+    lineSeries1.name = org+" Usage";
+    lineSeries1.dataFields.valueY = "% Usage";
+    lineSeries1.dataFields.categoryX = "Week";
+    lineSeries1.strokeWidth = 2;
+    lineSeries1.tensionX = 0.7;
+    lineSeries1.yAxis = valueAxis2;
+    // lineSeries1.tooltipText = "{name}: [bold]{valueY}[/]";
+    lineSeries1.tooltipText = "{name}: [bold]{valueY}[/]%";
+    lineSeries1.stroke = am4core.color("#000000");
+    
+    
+    var labelBullet1 = columnSeries1.bullets.push(new am4charts.LabelBullet());
+    labelBullet1.locationY = 0.001;
+    labelBullet1.label.text = "{Active}";
+    labelBullet1.label.horizontalCenter = "right";
+    labelBullet1.label.dx = 1;
+    labelBullet1.label.dy = 1;
+    labelBullet1.label.hideOversized = false;
+    labelBullet1.label.truncate = false;
+    
+    
+    var labelBullet2 = columnSeries2.bullets.push(new am4charts.LabelBullet());
+    labelBullet2.locationY = 0.5;
+    labelBullet2.label.text = "{Logged In}";
+    labelBullet2.label.horizontalCenter = "right";
+    labelBullet2.label.dx = 13;
+    labelBullet2.label.hideOversized = false;
+    labelBullet2.label.truncate = false;
+    
+    var labelBullet3 = lineSeries1.bullets.push(new am4charts.LabelBullet());
+    labelBullet3.label.text = "{% Usage}%";
+    labelBullet3.label.horizontalCenter = "right";
+    labelBullet3.label.background.stroke = am4core.color("#555");
+    labelBullet3.label.background.fillOpacity =0.8;
+    labelBullet3.label.dx = 20;
+    labelBullet3.label.hideOversized = false;
+    labelBullet3.label.truncate = false;
+    
+    chart1.data = myData;
+
+
+    '{%else%}'
+    console.log('Multiple')
+
+    // MultiChart
+    // 1.Braking
+
+    var myData1 = '{{array_Braking |safe}}'
+
+    var org1 = 'Braking'
+
+
+    myData1 = JSON.parse( myData1 );
+
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    am4core.disposeAllCharts();
+    // Create chart instance
+    var chart1 = am4core.create("Chart1",am4charts.XYChart);
+
+    // Export
+    chart1.exporting.menu = new am4core.ExportMenu();
+
+    
+    var title1 = chart1.titles.create();
+    title1.text = org1+" - Weekly";
+    title1.fontSize = 25;
+    title1.marginBottom = 30;
+    
+    
+    /* Create value axis */
+    /* Chart */
+    var valueAxis1 = chart1.yAxes.push(new am4charts.ValueAxis());
+    valueAxis1.min = 0;
+    // valueAxis1.max = 2500;
+    valueAxis1.renderer.minGridDistance = 30;
+    
+    var valueAxis2 = chart1.yAxes.push(new am4charts.ValueAxis());
+    valueAxis2.min = 0;
+    valueAxis2.max = 100;
+    valueAxis2.renderer.minGridDistance = 30;
+    valueAxis2.renderer.opposite = true;
+    valueAxis2.renderer.grid.template.disabled = true;
+    valueAxis2.renderer.labels.template.adapter.add("text", function(text) {
+      if ((text > 100) || (text < 0)) {
+        return "";
+      }
+      else {
+        return text;
+        // return text + "%";
+      }
+    })
+    
+    // Add legend
+    chart1.legend = new am4charts.Legend();
+    chart1.legend.position = "Bottom";
+    
+    
+    /* Create axes */
+    var categoryAxis1 = chart1.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis1.dataFields.category = "Week";
+    categoryAxis1.renderer.minGridDistance = 30;
+    
+    
+    
+    /* Create series1 */
+    var columnSeries1 = chart1.series.push(new am4charts.ColumnSeries());
+    columnSeries1.dataFields.categoryX = "Week";
+    columnSeries1.dataFields.valueY = "Active";
+    columnSeries1.yAxis = valueAxis1;
+    columnSeries1.name = org1+" Active";
+    columnSeries1.fill = am4core.color("#ffbf00");
+    columnSeries1.stroke = am4core.color("rgba(122,122,122,0.1)");
+    columnSeries1.columns.template.width = am4core.percent(30);
+    columnSeries1.clustered = false;
+    columnSeries1.columns.template.dx = -20;
+    
+    /* Create series2 */
+    var columnSeries2 = chart1.series.push(new am4charts.ColumnSeries());
+    columnSeries2.name = org1+" Logged In";
+    columnSeries2.fill = am4core.color("#FFFF00");
+    columnSeries1.yAxis = valueAxis1;
+    columnSeries2.stroke = am4core.color("rgba(122,122,122,0.1)");
+    columnSeries2.dataFields.valueY = "Logged In";
+    columnSeries2.dataFields.categoryX = "Week";
+    columnSeries2.columns.template.width = am4core.percent(30);
+    columnSeries2.clustered = false;
+    
+    var gradient1 = new am4core.LinearGradient();
+    gradient1.stops.push({color:am4core.color("#0052a1")})
+    gradient1.stops.push({color:am4core.color("#0052a1")})
+    gradient1.rotation = 90;
+    columnSeries2.fill = gradient1;
+    columnSeries2.columns.template.tooltipText = "{Logged In}: [bold]{valueY}[/]%";
+    
+    
+    /* Create series3 */
+    var lineSeries1 = chart1.series.push(new am4charts.LineSeries());
+    lineSeries1.name = org1+" Usage";
+    lineSeries1.dataFields.valueY = "% Usage";
+    lineSeries1.dataFields.categoryX = "Week";
+    lineSeries1.strokeWidth = 2;
+    lineSeries1.tensionX = 0.7;
+    lineSeries1.yAxis = valueAxis2;
+    // lineSeries1.tooltipText = "{name}: [bold]{valueY}[/]";
+    lineSeries1.tooltipText = "{name}: [bold]{valueY}[/]%";
+    lineSeries1.stroke = am4core.color("#000000");
+    
+    
+    var labelBullet1 = columnSeries1.bullets.push(new am4charts.LabelBullet());
+    labelBullet1.locationY = 0.001;
+    labelBullet1.label.text = "{Active}";
+    labelBullet1.label.horizontalCenter = "right";
+    labelBullet1.label.dx = 1;
+    labelBullet1.label.dy = 1;
+    labelBullet1.label.hideOversized = false;
+    labelBullet1.label.truncate = false;
+    
+    
+    var labelBullet2 = columnSeries2.bullets.push(new am4charts.LabelBullet());
+    labelBullet2.locationY = 0.5;
+    labelBullet2.label.text = "{Logged In}";
+    labelBullet2.label.horizontalCenter = "right";
+    labelBullet2.label.dx = 13;
+    labelBullet2.label.hideOversized = false;
+    labelBullet2.label.truncate = false;
+    
+    var labelBullet3 = lineSeries1.bullets.push(new am4charts.LabelBullet());
+    labelBullet3.label.text = "{% Usage}%";
+    labelBullet3.label.horizontalCenter = "right";
+    labelBullet3.label.background.stroke = am4core.color("#555");
+    labelBullet3.label.background.fillOpacity =0.8;
+    labelBullet3.label.dx = 20;
+    labelBullet3.label.hideOversized = false;
+    labelBullet3.label.truncate = false;
+    
+    chart1.data = myData1;
+
+
+// 2.Elec
+
+var myData2 = '{{array_Elec |safe}}'
+
+var org2 = 'Elec'
+
+
+myData2 = JSON.parse( myData2 );
+
+console.log(myData2)
+
+    // Themes begin
+am4core.useTheme(am4themes_animated);
+// Create chart instance
+var chart2 = am4core.create("Chart2",am4charts.XYChart);
+
+// Export
+chart2.exporting.menu = new am4core.ExportMenu();
+
+
+var title2 = chart2.titles.create();
+title2.text = org2+" - Weekly";
+title2.fontSize = 25;
+title2.marginBottom = 30;
+
+
+/* Create value axis */
+/* Chart */
+var valueAxis3 = chart2.yAxes.push(new am4charts.ValueAxis());
+valueAxis3.min = 0;
+// valueAxis1.max = 2500;
+valueAxis3.renderer.minGridDistance = 30;
+
+var valueAxis4 = chart2.yAxes.push(new am4charts.ValueAxis());
+valueAxis4.min = 0;
+valueAxis4.max = 100;
+valueAxis4.renderer.minGridDistance = 30;
+valueAxis4.renderer.opposite = true;
+valueAxis4.renderer.grid.template.disabled = true;
+valueAxis4.renderer.labels.template.adapter.add("text", function(text) {
+  if ((text > 100) || (text < 0)) {
+    return "";
+  }
+  else {
+    return text;
+    // return text + "%";
+  }
+})
+
+// Add legend
+chart2.legend = new am4charts.Legend();
+chart2.legend.position = "Bottom";
+
+
+/* Create axes */
+var categoryAxis2 = chart2.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis2.dataFields.category = "Week";
+categoryAxis2.renderer.minGridDistance = 30;
+
+
+
+/* Create series1 */
+var columnSeries3 = chart2.series.push(new am4charts.ColumnSeries());
+columnSeries3.dataFields.categoryX = "Week";
+columnSeries3.dataFields.valueY = "Active";
+columnSeries3.yAxis = valueAxis3;
+columnSeries3.name = org2+" Active";
+columnSeries3.fill = am4core.color("#ffbf00");
+columnSeries3.stroke = am4core.color("rgba(122,122,122,0.1)");
+columnSeries3.columns.template.width = am4core.percent(30);
+columnSeries3.clustered = false;
+columnSeries3.columns.template.dx = -20;
+
+/* Create series2 */
+var columnSeries4 = chart2.series.push(new am4charts.ColumnSeries());
+columnSeries4.name = org2+" Logged In";
+columnSeries4.fill = am4core.color("#FFFF00");
+columnSeries4.yAxis = valueAxis3;
+columnSeries4.stroke = am4core.color("rgba(122,122,122,0.1)");
+columnSeries4.dataFields.valueY = "Logged In";
+columnSeries4.dataFields.categoryX = "Week";
+columnSeries4.columns.template.width = am4core.percent(30);
+columnSeries4.clustered = false;
+
+var gradient2 = new am4core.LinearGradient();
+gradient2.stops.push({color:am4core.color("#0052a1")})
+gradient2.stops.push({color:am4core.color("#0052a1")})
+gradient2.rotation = 90;
+columnSeries4.fill = gradient2;
+columnSeries4.columns.template.tooltipText = "{Logged In}: [bold]{valueY}[/]%";
+
+
+/* Create series3 */
+var lineSeries2 = chart2.series.push(new am4charts.LineSeries());
+lineSeries2.name = org2+" Usage";
+lineSeries2.dataFields.valueY = "% Usage";
+lineSeries2.dataFields.categoryX = "Week";
+lineSeries2.strokeWidth = 2;
+lineSeries2.tensionX = 0.7;
+lineSeries2.yAxis = valueAxis4;
+// lineSeries1.tooltipText = "{name}: [bold]{valueY}[/]";
+lineSeries2.tooltipText = "{name}: [bold]{valueY}[/]%";
+lineSeries2.stroke = am4core.color("#000000");
+
+
+var labelBullet4 = columnSeries3.bullets.push(new am4charts.LabelBullet());
+labelBullet4.locationY = 0.001;
+labelBullet4.label.text = "{Active}";
+labelBullet4.label.horizontalCenter = "right";
+labelBullet4.label.dx = 1;
+labelBullet4.label.dy = 1;
+labelBullet4.label.hideOversized = false;
+labelBullet4.label.truncate = false;
+
+
+var labelBullet5 = columnSeries4.bullets.push(new am4charts.LabelBullet());
+labelBullet5.locationY = 0.5;
+labelBullet5.label.text = "{Logged In}";
+labelBullet5.label.horizontalCenter = "right";
+labelBullet5.label.dx = 13;
+labelBullet5.label.hideOversized = false;
+labelBullet5.label.truncate = false;
+
+var labelBullet6 = lineSeries2.bullets.push(new am4charts.LabelBullet());
+labelBullet6.label.text = "{% Usage}%";
+labelBullet6.label.horizontalCenter = "right";
+labelBullet6.label.background.stroke = am4core.color("#555");
+labelBullet6.label.background.fillOpacity =0.8;
+labelBullet6.label.dx = 20;
+labelBullet6.label.hideOversized = false;
+labelBullet6.label.truncate = false;
+
+chart2.data = myData2;
+
+
+// 3.LVS
+
+var myData3 = '{{array_LVS |safe}}'
+
+var org3 = 'LVS'
+
+
+myData3 = JSON.parse( myData3 );
+
+console.log(myData3)
+
+    // Themes begin
+am4core.useTheme(am4themes_animated);
+// Create chart instance
+var chart3 = am4core.create("Chart3",am4charts.XYChart);
+
+// Export
+chart3.exporting.menu = new am4core.ExportMenu();
+
+
+var title3 = chart3.titles.create();
+title3.text = org3+" - Weekly";
+title3.fontSize = 25;
+title3.marginBottom = 30;
+
+
+/* Create value axis */
+/* Chart */
+var valueAxis5 = chart3.yAxes.push(new am4charts.ValueAxis());
+valueAxis5.min = 0;
+// valueAxis1.max = 2500;
+valueAxis5.renderer.minGridDistance = 30;
+
+var valueAxis6 = chart3.yAxes.push(new am4charts.ValueAxis());
+valueAxis6.min = 0;
+valueAxis6.max = 100;
+valueAxis6.renderer.minGridDistance = 30;
+valueAxis6.renderer.opposite = true;
+valueAxis6.renderer.grid.template.disabled = true;
+valueAxis6.renderer.labels.template.adapter.add("text", function(text) {
+  if ((text > 100) || (text < 0)) {
+    return "";
+  }
+  else {
+    return text;
+    // return text + "%";
+  }
+})
+
+// Add legend
+chart3.legend = new am4charts.Legend();
+chart3.legend.position = "Bottom";
+
+
+/* Create axes */
+var categoryAxis3 = chart3.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis3.dataFields.category = "Week";
+categoryAxis3.renderer.minGridDistance = 30;
+
+
+
+/* Create series1 */
+var columnSeries5 = chart3.series.push(new am4charts.ColumnSeries());
+columnSeries5.dataFields.categoryX = "Week";
+columnSeries5.dataFields.valueY = "Active";
+columnSeries5.yAxis = valueAxis5;
+columnSeries5.name = org3+" Active";
+columnSeries5.fill = am4core.color("#ffbf00");
+columnSeries5.stroke = am4core.color("rgba(122,122,122,0.1)");
+columnSeries5.columns.template.width = am4core.percent(30);
+columnSeries5.clustered = false;
+columnSeries5.columns.template.dx = -20;
+
+/* Create series2 */
+var columnSeries6 = chart3.series.push(new am4charts.ColumnSeries());
+columnSeries6.name = org3+" Logged In";
+columnSeries6.fill = am4core.color("#FFFF00");
+columnSeries6.yAxis = valueAxis5;
+columnSeries6.stroke = am4core.color("rgba(122,122,122,0.1)");
+columnSeries6.dataFields.valueY = "Logged In";
+columnSeries6.dataFields.categoryX = "Week";
+columnSeries6.columns.template.width = am4core.percent(30);
+columnSeries6.clustered = false;
+
+var gradient3 = new am4core.LinearGradient();
+gradient3.stops.push({color:am4core.color("#0052a1")})
+gradient3.stops.push({color:am4core.color("#0052a1")})
+gradient3.rotation = 90;
+columnSeries6.fill = gradient3;
+columnSeries6.columns.template.tooltipText = "{Logged In}: [bold]{valueY}[/]%";
+
+
+/* Create series3 */
+var lineSeries3 = chart3.series.push(new am4charts.LineSeries());
+lineSeries3.name = org3+" Usage";
+lineSeries3.dataFields.valueY = "% Usage";
+lineSeries3.dataFields.categoryX = "Week";
+lineSeries3.strokeWidth = 2;
+lineSeries3.tensionX = 0.7;
+lineSeries3.yAxis = valueAxis6;
+// lineSeries1.tooltipText = "{name}: [bold]{valueY}[/]";
+lineSeries3.tooltipText = "{name}: [bold]{valueY}[/]%";
+lineSeries3.stroke = am4core.color("#000000");
+
+
+var labelBullet7 = columnSeries5.bullets.push(new am4charts.LabelBullet());
+labelBullet7.locationY = 0.001;
+labelBullet7.label.text = "{Active}";
+labelBullet7.label.horizontalCenter = "right";
+labelBullet7.label.dx = 1;
+labelBullet7.label.dy = 1;
+labelBullet7.label.hideOversized = false;
+labelBullet7.label.truncate = false;
+
+
+var labelBullet8 = columnSeries6.bullets.push(new am4charts.LabelBullet());
+labelBullet8.locationY = 0.5;
+labelBullet8.label.text = "{Logged In}";
+labelBullet8.label.horizontalCenter = "right";
+labelBullet8.label.dx = 13;
+labelBullet8.label.hideOversized = false;
+labelBullet8.label.truncate = false;
+
+var labelBullet9 = lineSeries3.bullets.push(new am4charts.LabelBullet());
+labelBullet9.label.text = "{% Usage}%";
+labelBullet9.label.horizontalCenter = "right";
+labelBullet9.label.background.stroke = am4core.color("#555");
+labelBullet9.label.background.fillOpacity =0.8;
+labelBullet9.label.dx = 20;
+labelBullet9.label.hideOversized = false;
+labelBullet9.label.truncate = false;
+
+chart3.data = myData3;
+
+// 4.CSS
+
+var myData4 = '{{array_CSS |safe}}'
+
+var org4 = 'CSS'
+
+
+myData4 = JSON.parse( myData4 );
+
+console.log(myData4)
+
+    // Themes begin
+am4core.useTheme(am4themes_animated);
+// Create chart instance
+var chart4 = am4core.create("Chart4",am4charts.XYChart);
+
+// Export
+chart4.exporting.menu = new am4core.ExportMenu();
+
+
+var title4 = chart4.titles.create();
+title4.text = org4+" - Weekly";
+title4.fontSize = 25;
+title4.marginBottom = 30;
+
+
+/* Create value axis */
+/* Chart */
+var valueAxis7 = chart4.yAxes.push(new am4charts.ValueAxis());
+valueAxis7.min = 0;
+// valueAxis1.max = 2500;
+valueAxis7.renderer.minGridDistance = 30;
+
+var valueAxis8 = chart4.yAxes.push(new am4charts.ValueAxis());
+valueAxis8.min = 0;
+valueAxis8.max = 100;
+valueAxis8.renderer.minGridDistance = 30;
+valueAxis8.renderer.opposite = true;
+valueAxis8.renderer.grid.template.disabled = true;
+valueAxis8.renderer.labels.template.adapter.add("text", function(text) {
+  if ((text > 100) || (text < 0)) {
+    return "";
+  }
+  else {
+    return text;
+    // return text + "%";
+  }
+})
+
+// Add legend
+chart4.legend = new am4charts.Legend();
+chart4.legend.position = "Bottom";
+
+
+/* Create axes */
+var categoryAxis4 = chart4.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis4.dataFields.category = "Week";
+categoryAxis4.renderer.minGridDistance = 30;
+
+
+
+/* Create series1 */
+var columnSeries7 = chart4.series.push(new am4charts.ColumnSeries());
+columnSeries7.dataFields.categoryX = "Week";
+columnSeries7.dataFields.valueY = "Active";
+columnSeries7.yAxis = valueAxis7;
+columnSeries7.name = org4+" Active";
+columnSeries7.fill = am4core.color("#ffbf00");
+columnSeries7.stroke = am4core.color("rgba(122,122,122,0.1)");
+columnSeries7.columns.template.width = am4core.percent(30);
+columnSeries7.clustered = false;
+columnSeries7.columns.template.dx = -20;
+
+/* Create series2 */
+var columnSeries8 = chart4.series.push(new am4charts.ColumnSeries());
+columnSeries8.name = org4+" Logged In";
+columnSeries8.fill = am4core.color("#FFFF00");
+columnSeries8.yAxis = valueAxis7;
+columnSeries8.stroke = am4core.color("rgba(122,122,122,0.1)");
+columnSeries8.dataFields.valueY = "Logged In";
+columnSeries8.dataFields.categoryX = "Week";
+columnSeries8.columns.template.width = am4core.percent(30);
+columnSeries8.clustered = false;
+
+var gradient4 = new am4core.LinearGradient();
+gradient4.stops.push({color:am4core.color("#0052a1")})
+gradient4.stops.push({color:am4core.color("#0052a1")})
+gradient4.rotation = 90;
+columnSeries8.fill = gradient4;
+columnSeries8.columns.template.tooltipText = "{Logged In}: [bold]{valueY}[/]%";
+
+
+/* Create series3 */
+var lineSeries4 = chart4.series.push(new am4charts.LineSeries());
+lineSeries4.name = org4+" Usage";
+lineSeries4.dataFields.valueY = "% Usage";
+lineSeries4.dataFields.categoryX = "Week";
+lineSeries4.strokeWidth = 2;
+lineSeries4.tensionX = 0.7;
+lineSeries4.yAxis = valueAxis6;
+// lineSeries1.tooltipText = "{name}: [bold]{valueY}[/]";
+lineSeries4.tooltipText = "{name}: [bold]{valueY}[/]%";
+lineSeries4.stroke = am4core.color("#000000");
+
+
+var labelBullet10 = columnSeries7.bullets.push(new am4charts.LabelBullet());
+labelBullet10.locationY = 0.001;
+labelBullet10.label.text = "{Active}";
+labelBullet10.label.horizontalCenter = "right";
+labelBullet10.label.dx = 1;
+labelBullet10.label.dy = 1;
+labelBullet10.label.hideOversized = false;
+labelBullet10.label.truncate = false;
+
+
+var labelBullet11 = columnSeries8.bullets.push(new am4charts.LabelBullet());
+labelBullet11.locationY = 0.5;
+labelBullet11.label.text = "{Logged In}";
+labelBullet11.label.horizontalCenter = "right";
+labelBullet11.label.dx = 13;
+labelBullet11.label.hideOversized = false;
+labelBullet11.label.truncate = false;
+
+var labelBullet12 = lineSeries4.bullets.push(new am4charts.LabelBullet());
+labelBullet12.label.text = "{% Usage}%";
+labelBullet12.label.horizontalCenter = "right";
+labelBullet12.label.background.stroke = am4core.color("#555");
+labelBullet12.label.background.fillOpacity =0.8;
+labelBullet12.label.dx = 20;
+labelBullet12.label.hideOversized = false;
+labelBullet12.label.truncate = false;
+
+chart4.data = myData4;
+
+
+// 5.OSS
+
+var myData5 = '{{array_OSS |safe}}'
+
+var org5 = 'OSS'
+
+
+myData5 = JSON.parse( myData5 );
+
+console.log(myData5)
+
+    // Themes begin
+am4core.useTheme(am4themes_animated);
+// Create chart instance
+var chart5 = am4core.create("Chart5",am4charts.XYChart);
+
+// Export
+chart5.exporting.menu = new am4core.ExportMenu();
+
+
+var title5 = chart5.titles.create();
+title5.text = org5+" - Weekly";
+title5.fontSize = 25;
+title5.marginBottom = 30;
+
+
+/* Create value axis */
+/* Chart */
+var valueAxis9 = chart5.yAxes.push(new am4charts.ValueAxis());
+valueAxis9.min = 0;
+// valueAxis1.max = 2500;
+valueAxis9.renderer.minGridDistance = 30;
+
+var valueAxis10 = chart5.yAxes.push(new am4charts.ValueAxis());
+valueAxis10.min = 0;
+valueAxis10.max = 100;
+valueAxis10.renderer.minGridDistance = 30;
+valueAxis10.renderer.opposite = true;
+valueAxis10.renderer.grid.template.disabled = true;
+valueAxis10.renderer.labels.template.adapter.add("text", function(text) {
+  if ((text > 100) || (text < 0)) {
+    return "";
+  }
+  else {
+    return text;
+    // return text + "%";
+  }
+})
+
+// Add legend
+chart5.legend = new am4charts.Legend();
+chart5.legend.position = "Bottom";
+
+
+/* Create axes */
+var categoryAxis5 = chart5.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis5.dataFields.category = "Week";
+categoryAxis5.renderer.minGridDistance = 30;
+
+
+
+/* Create series1 */
+var columnSeries9 = chart5.series.push(new am4charts.ColumnSeries());
+columnSeries9.dataFields.categoryX = "Week";
+columnSeries9.dataFields.valueY = "Active";
+columnSeries9.yAxis = valueAxis9;
+columnSeries9.name = org5+" Active";
+columnSeries9.fill = am4core.color("#ffbf00");
+columnSeries9.stroke = am4core.color("rgba(122,122,122,0.1)");
+columnSeries9.columns.template.width = am4core.percent(30);
+columnSeries9.clustered = false;
+columnSeries9.columns.template.dx = -20;
+
+/* Create series2 */
+var columnSeries10 = chart5.series.push(new am4charts.ColumnSeries());
+columnSeries10.name = org5+" Logged In";
+columnSeries10.fill = am4core.color("#FFFF00");
+columnSeries10.yAxis = valueAxis9;
+columnSeries10.stroke = am4core.color("rgba(122,122,122,0.1)");
+columnSeries10.dataFields.valueY = "Logged In";
+columnSeries10.dataFields.categoryX = "Week";
+columnSeries10.columns.template.width = am4core.percent(30);
+columnSeries10.clustered = false;
+
+var gradient5 = new am4core.LinearGradient();
+gradient5.stops.push({color:am4core.color("#0052a1")})
+gradient5.stops.push({color:am4core.color("#0052a1")})
+gradient5.rotation = 90;
+columnSeries10.fill = gradient5;
+columnSeries10.columns.template.tooltipText = "{Logged In}: [bold]{valueY}[/]%";
+
+
+/* Create series3 */
+var lineSeries5 = chart5.series.push(new am4charts.LineSeries());
+lineSeries5.name = org5+" Usage";
+lineSeries5.dataFields.valueY = "% Usage";
+lineSeries5.dataFields.categoryX = "Week";
+lineSeries5.strokeWidth = 2;
+lineSeries5.tensionX = 0.7;
+lineSeries5.yAxis = valueAxis6;
+// lineSeries1.tooltipText = "{name}: [bold]{valueY}[/]";
+lineSeries5.tooltipText = "{name}: [bold]{valueY}[/]%";
+lineSeries5.stroke = am4core.color("#000000");
+
+
+var labelBullet13 = columnSeries9.bullets.push(new am4charts.LabelBullet());
+labelBullet13.locationY = 0.001;
+labelBullet13.label.text = "{Active}";
+labelBullet13.label.horizontalCenter = "right";
+labelBullet13.label.dx = 1;
+labelBullet13.label.dy = 1;
+labelBullet13.label.hideOversized = false;
+labelBullet13.label.truncate = false;
+
+
+var labelBullet14 = columnSeries10.bullets.push(new am4charts.LabelBullet());
+labelBullet14.locationY = 0.5;
+labelBullet14.label.text = "{Logged In}";
+labelBullet14.label.horizontalCenter = "right";
+labelBullet14.label.dx = 13;
+labelBullet14.label.hideOversized = false;
+labelBullet14.label.truncate = false;
+
+var labelBullet15 = lineSeries5.bullets.push(new am4charts.LabelBullet());
+labelBullet15.label.text = "{% Usage}%";
+labelBullet15.label.horizontalCenter = "right";
+labelBullet15.label.background.stroke = am4core.color("#555");
+labelBullet15.label.background.fillOpacity =0.8;
+labelBullet15.label.dx = 20;
+labelBullet15.label.hideOversized = false;
+labelBullet15.label.truncate = false;
+
+chart5.data = myData5;
+
+
+function savePDF() {
+  
+  Promise.all([
+    chart1.exporting.pdfmake,
+    chart1.exporting.getImage("png"),
+    chart2.exporting.getImage("png"),
+    chart3.exporting.getImage("png"),
+    chart4.exporting.getImage("png"),
+    chart5.exporting.getImage("png")
+  ]).then(function(res) { 
+    
+    var pdfMake = res[0];
+    
+    // pdfmake is ready
+    // Create document template
+    var doc = {
+      pageSize: "A4",
+      pageOrientation: "landscape",
+      pageMargins: [30, 30, 30, 30],
+      content: []
+    };
+     
+    // doc.content.push({
+    //   text: "Braking",
+    //   fontSize: 20,
+    //   bold: true,
+    //   margin: [0, 20, 0, 15]
+    // });
+    
+    doc.content.push({
+      image: res[1],
+      width: 750,
+      height:400
+    });
+    
+    // doc.content.push({
+    //   text: "Elec",
+    //   fontSize: 20,
+    //   bold: true,
+    //   margin: [0, 20, 0, 15]
+    // });
+    
+    doc.content.push({
+      image: res[2],
+      width: 750,
+      height:400
+      // pageOrientation: "landscape"
+    });
+
+
+    // doc.content.push({
+    //   text: "LVS",
+    //   fontSize: 20,
+    //   bold: true,
+    //   margin: [0, 20, 0, 15]
+    // });
+    
+    doc.content.push({
+      image: res[3],
+      width: 750,
+      height:400
+    });
+
+
+    // doc.content.push({
+    //   text: "CSS",
+    //   fontSize: 20,
+    //   bold: true,
+    //   margin: [0, 20, 0, 15]
+    // });
+    
+    doc.content.push({
+      image: res[4],
+      width: 750,
+      height:400
+    });
+
+
+    // doc.content.push({
+    //   text: "OSS",
+    //   fontSize: 20,
+    //   bold: true,
+    //   margin: [0, 20, 0, 15]
+    // });
+    
+    doc.content.push({
+      image: res[5],
+      width: 750,
+      height:400
+    });
+
+
+    
+    pdfMake.createPdf(doc).download("report.pdf");
+    
+  });
+}
+    '{%endif%}'
+    
+  </script>
+

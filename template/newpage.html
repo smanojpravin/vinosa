@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Freebie Interactive Flat Design UI / Only HTML5 &amp; CSS3</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+
+</head>
+
+<style>
+
+.submitHeader {
+  margin: 60px 0;
+}
+.submitHeader h1 {
+  font-size: 36px;
+}
+.submitHeader p {
+  font-size: 18px;
+}
+.claimSteps {
+  width: 285px;
+  height: 285px;
+  background-color: #2dccd3;
+  color: #ffffff;
+  text-align: center;
+  position: relative;
+  margin: 0 auto;
+  display: table;
+}
+.claimStepNumber {
+  margin-top: 40px;
+  font-size: 38px;
+  background-color: black;
+  color: #2dccd3;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  position: absolute;
+  display: table-cell;
+  left: 50%;
+  -webkit-transform: translate(-50%);
+  -ms-transform: translate(-50%);
+  transform: translate(-50%);
+}
+.claimStepTitle {
+  color: #ffffff;
+  font-size: 25px;
+  margin-top: 110px;
+  font-style: Verdana;
+  /* font-size: large; */
+}
+
+.claimStepText {
+  text-align: center;
+  /* margin-left: 33.3%;
+  width: 33.3%; */
+  font-style: Verdana;
+  font-size: 20px;  
+  color: black;
+}
+@media (min-width: 1200px) {
+  .submitHeader {
+    margin: 60px 40px;
+  }
+}
+@media (max-width: 991px) {
+  .claimSteps {
+    margin: 30px auto;
+  }
+  .submitHeader {
+    margin-top: 60px;
+    margin-bottom: 0;
+    text-align: center;
+  }
+}
+
+.page-bg {
+  background: url("/static/background.jpg");
+  background-size: cover;
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+  filter: blur(3px);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+
+h1 {
+  text-align: center;
+  margin-bottom: 0;
+  margin-top: 60px;
+  color:red;
+}
+
+
+#modal_trigger {
+  margin: 40px auto;
+  width: 200px;
+  display: block;
+  border: 1px solid #DDD;
+  border-radius: 4px;
+}
+
+.btn {
+  padding: 10px 20px;
+  background: #F4F4F2;
+}
+
+.btn_red {
+  background: #ED6347;
+  color: #FFF;
+}
+
+.btn:hover {
+  background: #E4E4E2;
+}
+
+.btn_red:hover {
+  background: #C12B05;
+}
+
+a.btn {
+  color: #666;
+  text-align: center;
+  text-decoration: none;
+}
+
+a.btn_red {
+  color: #FFF;
+}
+
+
+/* Navigation */
+
+.navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 30px 60px 0;
+  box-sizing: border-box;
+}
+
+.navigation a {
+  color: black;
+  text-decoration: none;
+}
+
+.navigation h1,
+.navigation ul {
+  margin: 0;
+  padding: 0;
+  color:white;
+}
+
+.navigation__logo {
+  font-size: 16px;
+}
+
+.navigation__links {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.navigation__links ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+.navigation__links ul:first-child {
+  margin-right: 100px;
+}
+
+.navigation__links li {
+  margin-right: 50px;
+  cursor: pointer;
+}
+
+.navigation__links li:last-child {
+  margin-right: 0px;
+}
+
+.navigation__burger{
+  position: relative;
+  top: 2px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.navigation__burger div{
+  width: 15px;
+  height: 2px;
+  background-color: black;
+  position: absolute;
+}
+
+.navigation__burger div:first-child{
+  top: 10px;
+}
+
+.navigation__burger div:last-child{
+  bottom: 10px;
+}
+
+.navigation__burger div:nth-child(2){
+  transform: translate(0%, -50%);
+  top: 50%;
+}
+
+</style>
+<body>
+
+    <nav class="navigation" id="navigation">
+        <h1>VINOSANSE.</h1>
+        <!-- <a class="navigation__logo" id="logo" href="https://dribbble.com/shots/6691110-Ecommerce-Website-Interactions-Tubik" target="_blank"><h1>VINOSANSE.</h1></a> -->
+        <div class="navigation__links" id="links">
+          <ul>
+            <!-- <li><a href="#">Login/Register</a></li> -->
+          </ul>
+          <ul>
+            <li><b>Login/Register</b></li>
+            <li>
+              <div class="navigation__burger">
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+
+    <div class="page-bg">
+    </div>
+
+    
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <div class="container">
+        
+      <div class="submitHeader">
+
+        <div class="container">
+            <!-- <h1 style="color: white;">Terms & Conditions </h1> -->
+            <!-- <a id="modal_trigger" href="#modal" class="btn">Click here to Login or register</a> -->
+          </div>
+
+      </div>
+
+      <div class="row">
+        <h1 style="color: white;">Our Services</h1>
+        <br>
+        <div class="col-md-4">
+          <div class="claimSteps" id="stepOne">
+            <p class="claimStepNumber">1</p>
+            <p class="claimStepTitle"></p>
+            <br>
+            <p class="claimStepText"><b>Only Intraday</b></p>
+          </div>
+        </div>  
+        <div class="col-md-4">
+          <div class="claimSteps" id="stepTwo">
+            <p class="claimStepNumber">2</p>
+            <p class="claimStepTitle"></p>
+            <br>
+            <p class="claimStepText"><b>Margin Requirments minimum Rs.1,50,000</b></p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="claimSteps" id="stepThree">
+            <p class="claimStepNumber">3</p>
+            <p class="claimStepTitle"></p>
+            <br>
+            <p class="claimStepText"><b>Per Day Minimum 140 Points(1 LOT)</b></p>
+          </div>
+        </div>
+
+      </div>
+      <div><br></div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="claimSteps" id="stepOne">
+            <p class="claimStepNumber">4</p>
+            <p class="claimStepTitle"></p>
+            <br>
+            <p class="claimStepText"><b>Stop Loss</b> </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="claimSteps" id="stepTwo">
+            <p class="claimStepNumber">5</p>
+            <p class="claimStepTitle"></p>
+            <br>
+            <p class="claimStepText"><b>For Month 13 to 17 Calls</b></p>
+          </div>
+        </div>
+
+  
+
+
+      </div>
+
+    </div>
+
+    <section class="">
+        <!-- Footer -->
+        <footer class="text-center text-white" style="background-color: #0a4275;">
+          <!-- Grid container -->
+          <div class="container p-4 pb-0">
+            <!-- Section: CTA -->
+            <section class="">
+              <p class="d-flex justify-content-center align-items-center">
+                <span class="me-3">Register for free</span>
+                <button type="button" class="btn btn-outline-light btn-rounded">
+                  Sign up!
+                </button>
+              </p>
+            </section>
+            <!-- Section: CTA -->
+          </div>
+          <!-- Grid container -->
+      
+          <!-- Copyright -->
+          <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2020 Copyright:
+            <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+          </div>
+          <!-- Copyright -->
+        </footer>
+        <!-- Footer -->
+      </section>
+
+</body>
+</html>

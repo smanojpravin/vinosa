@@ -1,0 +1,46 @@
+{% extends 'commonbase.html' %}
+{% block content %}
+<div class="row">
+
+    <div class="col-md">
+        <h4 class="text-center alert alert-info"> User Information</h4>
+        {% if userlt %}
+
+
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">S.No</th>
+                <th scope="col">Name</th>
+                <th scope="col">Father Name</th>
+                <th scope="col">Mobile</th>
+                <th scope="col">Email</th>
+                <th scope="col">Address</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for st in userlt %}
+              <tr>
+                <th scope="row">{{st.id}}</th>
+                <td>{{st.name}}</td>
+                <td>{{st.fathername}}</td>
+                <td>{{st.mobile}}</td>
+                <td>{{st.email}}</td>
+                <td>{{st.address}}</td>
+
+                
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+        {% else %}
+
+        <h4 class="text-center alert alert-warning"> No Records</h4>
+
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock content %}

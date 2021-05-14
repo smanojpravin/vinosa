@@ -1,0 +1,7 @@
+
+
+{%  for item in week_list %}
+{%if item not in weeks%}
+<option value="{{ item }}">{{ item }}</option>
+{%  endif %}
+{% endfor %}

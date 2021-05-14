@@ -1,0 +1,113 @@
+{% extends 'commonbase.html' %}
+{% block content %}
+<h2 class="text-center alert alert-danger">NSE Option Chain</h2>
+<div class="row">
+
+
+
+
+    <div class="container">
+      <h4 class="text-center alert alert-info">Option Chain Information</h4>
+      <fontsize="2" face="Courier New" >
+      {% if listOfDict %}
+
+        <table class="table table-hover small" >
+          <thead>
+            <tr>
+              <th scope="col">strikePrice</th>
+              <th scope="col">expiryDate</th>
+              <th scope="col">underlying</th>
+              <th scope="col">identifier</th>
+              <th scope="col">openInterest</th>
+              <th scope="col">Change In OI</th>
+              <th scope="col">%Change In OI </th>
+              <th scope="col">Volume</th>
+              <th scope="col">impliedVolatility</th>
+              <th scope="col">lastPrice</th>
+              <th scope="col">change</th>
+              <th scope="col">%Change</th>
+              <th scope="col">totalBuyQuantity</th>
+              <th scope="col">totalSellQuantity</th>
+              <th scope="col">bidQty</th>
+              <th scope="col">bidprice</th>
+              <th scope="col">askQty</th>
+              <th scope="col">askPrice</th>
+              <th scope="col">underlyingValue</th>
+
+              <!-- <th scope="col">Status</th> -->
+            </tr>
+          </thead>
+          <tbody>
+              {% for lst in listOfDict %}
+                {% if 'PE' in lst %}
+              <tr>
+                <th scope="row" style="font-size: 12 px">{{lst.PE.strikePrice}}</th>
+                <td>{{lst.PE.expiryDate}}</td>
+                <td>{{lst.PE.underlying}}</td>
+                <td>{{lst.PE.identifier}}</td>
+                <td>{{lst.PE.openInterest}}</td>
+                <td>{{lst.PE.changeinOpenInterest}}</td>
+                <td>{{lst.PE.pchangeinOpenInterest}}</td>
+                <td>{{lst.PE.totalTradedVolume}}</td>
+                <td>{{lst.PE.impliedVolatility}}</td>
+                <td>{{lst.PE.lastPrice}}</td>
+                <td>{{lst.PE.change}}</td>
+                <td>{{lst.PE.pChange}}</td>
+                <td>{{lst.PE.totalBuyQuantity}}</td>
+                <td>{{lst.PE.totalSellQuantity}}</td>
+                <td>{{lst.PE.bidQty}}</td>
+                <td>{{lst.PE.bidprice}}</td>
+                <td>{{lst.PE.askQty}}</td>
+                <td>{{lst.PE.askPrice}}</td>
+                <td>{{lst.PE.underlyingValue}}</td>
+
+                <!-- <td>{{st.status}}</td> -->
+                <!-- <td>
+                    <a href="#" class="btn btn-warning">Edit</a>
+                    <form action="#" method="POST" class="d-inline">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-danger" value="Delete">
+                    </form>
+                </td> -->
+                
+              </tr>
+                {% elif 'CE' in lst %}
+                <tr>
+                  <th scope="row">{{lst.CE.strikePrice}}</th>
+                  <td>{{lst.CE.expiryDate}}</td>
+                  <td>{{lst.CE.underlying}}</td>
+                  <td>{{lst.CE.identifier}}</td>
+                  <td>{{lst.CE.openInterest}}</td>
+                  <td>{{lst.CE.changeinOpenInterest}}</td>
+                  <td>{{lst.CE.pchangeinOpenInterest}}</td>
+                  <td>{{lst.CE.totalTradedVolume}}</td>
+                  <td>{{lst.CE.impliedVolatility}}</td>
+                  <td>{{lst.CE.lastPrice}}</td>
+                  <td>{{lst.CE.change}}</td>
+                  <td>{{lst.CE.pChange}}</td>
+                  <td>{{lst.CE.totalBuyQuantity}}</td>
+                  <td>{{lst.CE.totalSellQuantity}}</td>
+                  <td>{{lst.CE.bidQty}}</td>
+                  <td>{{lst.CE.bidprice}}</td>
+                  <td>{{lst.CE.askQty}}</td>
+                  <td>{{lst.CE.askPrice}}</td>
+                  <td>{{lst.CE.underlyingValue}}</td>
+                  </tr>
+                
+                  {% endif %}
+                
+            {% endfor %}
+          </tbody>
+        </table>
+
+      {% else %}
+
+      <h4 class="text-center alert alert-warning"> No Records</h4>
+
+      {% endif %}
+  </div>
+
+</div>
+
+
+{% endblock content %}

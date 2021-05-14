@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
+  <title>VINOSA</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <!-- Font Awesome Icon Library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="./style.css">
+
+<style>
+
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
+* {
+  box-sizing: border-box;
+}
+
+/* .checked {
+  color: orange;
+} */
+
+:root {
+  --app-container: #f3f6fd;
+  --main-color: #1f1c2e;
+  --secondary-color: #4A4A4A;
+  --link-color: #1f1c2e;
+  --link-color-hover: #c3cff4;
+  --link-color-active: #fff;
+  --link-color-active-bg: #1f1c2e;
+  --projects-section: #fff;
+  --message-box-hover: #fafcff;
+  --message-box-border: #e9ebf0;
+  --more-list-bg: #fff;
+  --more-list-bg-hover: #f6fbff;
+  --more-list-shadow: rgba(209, 209, 209, 0.4);
+  --button-bg: #1f1c24;
+  --search-area-bg: #fff;
+  --star: #1ff1c2e;
+  --message-btn: #fff;
+}
+
+.dark:root {
+  --app-container: #1f1d2b;
+  --app-container: #111827;
+  --main-color: #fff;
+  --secondary-color: rgba(255,255,255,.8);
+  --projects-section: #1f2937;
+  --link-color: rgba(255,255,255,.8);
+  --link-color-hover: rgba(195, 207, 244, 0.1);
+  --link-color-active-bg: rgba(195, 207, 244, 0.2);
+  --button-bg: #1f2937;
+  --search-area-bg: #1f2937;
+  --message-box-hover: #243244;
+  --message-box-border: rgba(255,255,255,.1);
+  --star: #ffd92c;
+  --light-font: rgba(255,255,255,.8);
+  --more-list-bg: #2f3142;
+  --more-list-bg-hover: rgba(195, 207, 244, 0.1);
+  --more-list-shadow: rgba(195, 207, 244, 0.1);
+  --message-btn: rgba(195, 207, 244, 0.1);
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+  overflow: auto;
+  /* display: flex; */
+  justify-content: center;
+  background-color: var(--app-container);
+}
+
+button, a {
+  cursor: pointer;
+}
+
+.app-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--app-container);
+  transition: 0.2s;
+  max-width: 1800px;
+}
+.app-content {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  padding: 16px 24px 24px 0;
+}
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 16px;
+  position: relative;
+}
+.app-header-left, .app-header-right {
+  /* display: flex; */
+  align-items: center;
+  text-align: center;
+}
+.app-header-left {
+  flex-grow: 1;
+}
+.app-header-right button {
+  margin-left: 10px;
+}
+.app-icon {
+  width: 26px;
+  height: 2px;
+  border-radius: 4px;
+  background-color: var(--main-color);
+  position: relative;
+}
+.app-icon:before, .app-icon:after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 2px;
+  border-radius: 4px;
+  background-color: var(--main-color);
+  left: 50%;
+  transform: translatex(-50%);
+}
+.app-icon:before {
+  top: -6px;
+}
+.app-icon:after {
+  bottom: -6px;
+}
+.app-name {
+  color: var(--main-color);
+  margin: 0;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  margin: 0 32px;
+}
+
+.mode-switch {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  color: var(--main-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-wrapper {
+  border-radius: 20px;
+  background-color: var(--search-area-bg);
+  padding-right: 12px;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
+  color: var(--light-font);
+  box-shadow: 0 2px 6px 0 rgba(136, 148, 171, 0.2), 0 24px 20px -24px rgba(71, 82, 107, 0.1);
+  overflow: hidden;
+}
+.dark .search-wrapper {
+  box-shadow: none;
+}
+
+.search-input {
+  border: none;
+  flex: 1;
+  outline: none;
+  height: 100%;
+  padding: 0 20px;
+  font-size: 16px;
+  background-color: var(--search-area-bg);
+  color: var(--main-color);
+}
+.search-input:placeholder {
+  color: var(--main-color);
+  opacity: 0.6;
+}
+
+.add-btn {
+  color: #fff;
+  background-color: var(--button-bg);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-btn {
+  color: var(--main-color);
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-btn {
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  border-left: 2px solid #ddd;
+}
+.profile-btn img {
+  width: 32px;
+  height: 32px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+.profile-btn span {
+  color: var(--main-color);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+.page-content  {
+  flex: 1;
+  width: 100%;
+}
+
+.app-sidebar {
+  padding: 40px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.app-sidebar-link {
+  color: var(--main-color);
+  color: var(--link-color);
+  margin: 16px 0;
+  transition: 0.2s;
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.app-sidebar-link:hover {
+  background-color: var(--link-color-hover);
+  color: var(--link-color-active);
+}
+.app-sidebar-link.active {
+  background-color: var(--link-color-active-bg);
+  color: var(--link-color-active);
+}
+
+.projects-section {
+  flex: auto;
+  background-color: var(--projects-section);
+  border-radius: 32px;
+  padding: 32px 32px 0 32px;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.projects-section-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 32px;
+}
+.projects-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  color: var(--main-color);
+}
+.projects-section-header p {
+
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  opacity: 0.9;
+  margin: 0;
+  color: var(--main-color);
+  align-content: center;
+}
+
+.projects-section-header .time {
+  font-size: 20px;
+}
+
+
+
+.projects-status {
+  display: flex;
+}
+
+.item-status {
+  display: flex;
+  flex-direction: column;
+  margin-right: 16px;
+}
+.item-status:not(:last-child) .status-type:after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translatey(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--secondary-color);
+}
+
+.status-number {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  color: var(--main-color);
+}
+
+.status-type {
+  position: relative;
+  padding-right: 24px;
+  color: var(--secondary-color);
+}
+
+.view-actions {
+  display: flex;
+  align-items: center;
+}
+
+.view-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+  border-radius: 4px;
+  background-color: transparent;
+  border: none;
+  color: var(--main-color);
+  margin-left: 8px;
+  transition: 0.2s;
+}
+.view-btn.active {
+  background-color: var(--link-color-active-bg);
+  color: var(--link-color-active);
+}
+.view-btn:not(.active):hover {
+  background-color: var(--link-color-hover);
+  color: var(--link-color-active);
+}
+
+.messages-section {
+  flex-shrink: 0;
+  padding-bottom: 32px;
+  background-color: var(--projects-section);
+  margin-left: 24px;
+  flex: 1;
+  width: 100%;
+  border-radius: 30px;
+  position: relative;
+  overflow: auto;
+  transition: all 300ms cubic-bezier(0.19, 1, 0.56, 1);
+}
+.messages-section .messages-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  border: none;
+  background-color: transparent;
+  color: var(--main-color);
+  display: none;
+}
+.messages-section.show {
+  transform: translateX(0);
+  opacity: 1;
+  margin-left: 0;
+}
+.messages-section .projects-section-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 32px 24px 0 24px;
+  background-color: var(--projects-section);
+}
+
+.message-box {
+  border-top: 1px solid var(--message-box-border);
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+.message-box:hover {
+  background-color: var(--message-box-hover);
+  border-top-color: var(--link-color-hover);
+}
+.message-box:hover + .message-box {
+  border-top-color: var(--link-color-hover);
+}
+.message-box img {
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 40px;
+  height: 40px;
+}
+
+.message-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.message-header .name {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--main-color);
+  margin: 0;
+}
+
+.message-content {
+  padding-left: 16px;
+  width: 100%;
+}
+
+.star-checkbox input {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+.star-checkbox label {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.dark .star-checkbox {
+  color: var(--secondary-color);
+}
+.dark .star-checkbox input:checked + label {
+  color: var(--star);
+}
+.star-checkbox input:checked + label svg {
+  fill: var(--star);
+  transition: 0.2s;
+}
+
+.message-line {
+  font-size: 14px;
+  line-height: 20px;
+  margin: 8px 0;
+  color: var(--secondary-color);
+  opacity: 0.7;
+}
+.message-line.time {
+  text-align: right;
+  margin-bottom: 0;
+}
+
+.project-boxes {
+  margin: 0 -8px;
+  /* overflow-y: auto; */
+}
+.project-boxes.jsGridView {
+  /* display: flex; */
+  flex-wrap: wrap;
+}
+.project-boxes.jsGridView .project-box-wrapper {
+  width: 100%;
+}
+.project-boxes.jsListView .project-box {
+  /* display: flex; */
+  border-radius: 10px;
+  position: relative;
+}
+.project-boxes.jsListView .project-box > * {
+  margin-right: 24px;
+}
+.project-boxes.jsListView .more-wrapper {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+}
+.project-boxes.jsListView .project-box-content-header {
+  order: 1;
+  max-width: auto;
+}
+.project-boxes.jsListView .project-box-header {
+  order: 2;
+}
+.project-boxes.jsListView .project-box-footer {
+  order: 3;
+  padding-top: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.project-boxes.jsListView .project-box-footer:after {
+  display: none;
+}
+.project-boxes.jsListView .participants {
+  margin-bottom: 8px;
+}
+.project-boxes.jsListView .project-box-content-header p {
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.project-boxes.jsListView .project-box-header > span {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  font-size: 12px;
+}
+.project-boxes.jsListView .box-progress-wrapper {
+  order: 3;
+  flex: 1;
+}
+
+.project-box {
+  --main-color-card: #dbf6fd;
+  border-radius: 30px;
+  padding: 16px;
+  background-color: var(--main-color-card);
+}
+.project-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  color: var(--main-color);
+}
+.project-box-header span {
+  color: #4A4A4A;
+  opacity: 0.7;
+  font-size: 14px;
+  line-height: 16px;
+}
+.project-box-content-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.project-box-content-header p {
+  margin: 0;
+}
+.project-box-wrapper {
+  padding: 8px;
+  transition: 0.2s;
+  align-content: center;
+}
+
+.project-btn-more {
+  padding: 0;
+  height: 14px;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  background-color: transparent;
+  border: none;
+  flex-shrink: 0;
+  /*&:after, &:before {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--main-color);
+    opacity: .8;
+    left: 50%;
+    transform: translatex(-50%);
+  }
+
+  &:before { top: 0;}
+  &:after { bottom: 0; }*/
+}
+
+.more-wrapper {
+  position: relative;
+}
+
+.box-content-header {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+.box-content-subheader {
+  font-size: 14px;
+  line-height: 24px;
+  opacity: 0.7;
+}
+
+.box-progress {
+  display: block;
+  height: 4px;
+  border-radius: 6px;
+}
+.box-progress-bar {
+  width: 100%;
+  height: 4px;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #fff;
+  margin: 8px 0;
+}
+.box-progress-header {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  margin: 0;
+}
+.box-progress-percentage {
+  text-align: right;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.project-box-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16px;
+  position: relative;
+}
+.project-box-footer:after {
+  content: "";
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.6);
+  width: calc(100% + 32px);
+  top: 0;
+  left: -16px;
+  height: 1px;
+}
+
+.participants {
+  display: flex;
+  align-items: center;
+}
+.participants img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.participants img:not(:first-child) {
+  margin-left: -8px;
+}
+
+.add-participant {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.6);
+  margin-left: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.days-left {
+  background-color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  padding: 6px 16px;
+  font-weight: 700;
+}
+
+.mode-switch.active .moon {
+  fill: var(--main-color);
+}
+
+.messages-btn {
+  border-radius: 4px 0 0 4px;
+  position: absolute;
+  right: 0;
+  top: 58px;
+  background-color: var(--message-btn);
+  border: none;
+  color: var(--main-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  display: none;
+}
+
+@media screen and (max-width: 980px) {
+  .project-boxes.jsGridView .project-box-wrapper {
+    width: 50%;
+  }
+
+  .status-number, .status-type {
+    font-size: 14px;
+  }
+
+  .status-type:after {
+    width: 4px;
+    height: 4px;
+  }
+
+  .item-status {
+    margin-right: 0;
+  }
+}
+@media screen and (max-width: 880px) {
+  .messages-section {
+    transform: translateX(100%);
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+  }
+  .messages-section .messages-close {
+    display: block;
+  }
+
+  .messages-btn {
+    display: flex;
+  }
+}
+@media screen and (max-width: 720px) {
+  .app-name, .profile-btn span {
+    display: none;
+  }
+
+  .add-btn, .notification-btn, .mode-switch {
+    width: 20px;
+    height: 20px;
+  }
+  .add-btn svg, .notification-btn svg, .mode-switch svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .app-header-right button {
+    margin-left: 4px;
+  }
+}
+@media screen and (max-width: 520px) {
+  .projects-section {
+    overflow: auto;
+  }
+
+  .project-boxes {
+    overflow-y: visible;
+  }
+
+  .app-sidebar, .app-icon {
+    display: none;
+  }
+
+  .app-content {
+    padding: 16px 12px 24px 12px;
+  }
+
+  .status-number, .status-type {
+    font-size: 10px;
+  }
+
+  .view-btn {
+    width: 24px;
+    height: 24px;
+  }
+
+  .app-header {
+    padding: 16px 10px;
+  }
+
+  .search-input {
+    max-width: 120px;
+  }
+
+  .project-boxes.jsGridView .project-box-wrapper {
+    width: 100%;
+  }
+
+  .projects-section {
+    padding: 24px 16px 0 16px;
+  }
+
+  .profile-btn img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .app-header {
+    padding: 10px;
+  }
+
+  .projects-section-header p,
+.projects-section-header .time {
+    font-size: 18px;
+  }
+
+  .status-type {
+    padding-right: 4px;
+  }
+  .status-type:after {
+    display: none;
+  }
+
+  .search-input {
+    font-size: 14px;
+  }
+
+  .messages-btn {
+    top: 48px;
+  }
+
+  .box-content-header {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .box-content-subheader {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .project-boxes.jsListView .project-box-header > span {
+    font-size: 10px;
+  }
+
+  .box-progress-header {
+    font-size: 12px;
+  }
+
+  .box-progress-percentage {
+    font-size: 10px;
+  }
+
+  .days-left {
+    font-size: 8px;
+    padding: 6px 6px;
+    text-align: center;
+  }
+
+  .project-boxes.jsListView .project-box > * {
+    margin-right: 10px;
+  }
+
+  .project-boxes.jsListView .more-wrapper {
+    right: 2px;
+    top: 10px;
+  }
+}
+
+
+/* /startshere */
+
+.wrapper {
+  margin: 0 auto;
+  padding: 40px;
+  max-width: 800px;
+}
+
+.table {
+  margin: 0 0 40px 0;
+  width: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  display: table;
+}
+@media screen and (max-width: 580px) {
+  .table {
+    display: block;
+  }
+}
+
+.row {
+  display: table-row;
+  background: #f6f6f6;
+}
+.row:nth-of-type(odd) {
+  background: #e9e9e9;
+}
+.row.header {
+  font-weight: 900;
+  color: #ffffff;
+  background: #ea6153;
+}
+.row.green {
+  background: #27ae60;
+}
+.row.blue {
+  background: #2980b9;
+}
+@media screen and (max-width: 580px) {
+  .row {
+    padding: 14px 0 7px;
+    display: block;
+  }
+  .row.header {
+    padding: 0;
+    height: 6px;
+  }
+  .row.header .cell {
+    display: none;
+  }
+  .row .cell {
+    margin-bottom: 10px;
+  }
+  .row .cell:before {
+    margin-bottom: 3px;
+    content: attr(data-title);
+    min-width: 98px;
+    font-size: 10px;
+    line-height: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #969696;
+    display: block;
+  }
+}
+
+.cell {
+  padding: 6px 12px;
+  display: table-cell;
+}
+@media screen and (max-width: 580px) {
+  .cell {
+    padding: 2px 16px;
+    display: block;
+  }
+}
+
+footer {
+  padding: 60px;
+  color: #fff;
+  background-color: #232F3E;
+  text-align: center;
+}
+
+/* .SiteFooterStyles_linkFooter-1kxUO {
+    background: #010101;
+    padding: 40px 0;
+    position: relative;
+}
+
+footer {
+    display: block;
+} */
+
+
+    </style>
+</head>
+<body>
+
+
+<!-- partial:index.partial.html -->
+<div class="app-container">
+  <div class="app-header">
+    <div class="app-header-left">
+      <!-- <span class="app-icon"></span> -->
+      <centre><h1>VINONSE</h1></centre>
+      <!-- <p>Portfolio</p> -->
+    </div>
+
+    <div class="app-header-right">
+
+      <button class="profile-btn">
+        <!-- <img src="https://assets.codepen.io/3306515/IMG_2025.jpg" /> -->
+        <!-- <li class="logout warn"><a href="" style="text-decoration: none;" >Log Out</a></li> -->
+        <span>Manoj S.</span>
+        <span class="logout warn"><a href="{% url 'logout' %}" style="text-decoration: none;" >Log Out</a></span>
+      </button>
+    </div>
+    <button class="messages-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>
+    </button>
+  </div>
+  <div class="app-content">
+    <div class="app-sidebar">
+      <a href="" class="app-sidebar-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" /></svg>
+      </a>
+
+    </div>
+
+
+    <div class="projects-section">
+
+      <div class="projects-section-header">
+        <!-- <p class="nse">NSE</p> -->
+        <p class="time">December, 12</p>
+      </div>
+
+      <div class="project-boxes jsGridView">
+
+        <div class="project-box-wrapper">
+          <div class="project-box" style="background-color: #fee4cb;">
+            <div class="project-box-header">
+                <!-- <h3>NIFTY</h3> -->
+              <span><strong><h1>NIFTY</h1></strong></span>
+              <div class="more-wrapper">
+                <button class="project-btn-more">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                    <circle cx="12" cy="12" r="1" />
+                    <circle cx="12" cy="5" r="1" />
+                    <circle cx="12" cy="19" r="1" /></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="table">
+            
+                <div class="row header">
+                <div class="cell">
+                    DATE
+                </div>
+                <div class="cell">
+                    TIME
+                </div>
+                <div class="cell">
+                    SIGNAL
+                </div>
+                <div class="cell">
+                    ENTRY
+                </div>
+                <div class="cell">
+                    TARGET
+                </div>
+                <div class="cell">
+                    ADVISORY
+                </div>
+                </div>
+                
+                {% for data in niftydata %}
+
+                <div class="row">
+                <div class="cell" data-title="Date">
+                  {{ data.date}}
+                </div>
+                <div class="cell" data-title="Time">
+                  {{ data.time}}
+                </div>
+                <div class="cell" data-title="Signal">
+                  {{ data.signal}}
+                </div>
+                <div class="cell" data-title="ENTRY">
+                  {{ data.entry}}
+                </div>
+                <div class="cell" data-title="TARGET">
+                  {{ data.target}}
+                </div>
+                <div class="cell" data-title="ADVISORY">
+                  {{ data.advisory}}
+                </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+
+
+            </div>
+ 
+        </div>
+
+        <div class="project-box-wrapper">
+            <div class="project-box" style="background-color: #fee4cb;">
+              <div class="project-box-header">
+                <span><strong><h1>BANKNIFTY</h1></strong></span>
+                <div class="more-wrapper">
+                  <button class="project-btn-more">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                      <circle cx="12" cy="12" r="1" />
+                      <circle cx="12" cy="5" r="1" />
+                      <circle cx="12" cy="19" r="1" /></svg>
+                  </button>
+                </div>
+              </div>
+  
+              <div class="table">
+              
+                <div class="row header">
+                    <div class="cell">
+                        DATE
+                    </div>
+                    <div class="cell">
+                        TIME
+                    </div>
+                    <div class="cell">
+                        SIGNAL
+                    </div>
+                    <div class="cell">
+                        ENTRY
+                    </div>
+                    <div class="cell">
+                        TARGET
+                    </div>
+                    <div class="cell">
+                        ADVISORY
+                    </div>
+                </div>
+
+
+                {% for data in bankniftydata %}
+
+                <div class="row">
+                <div class="cell" data-title="Date">
+                  {{ data.date}}
+                </div>
+                <div class="cell" data-title="Time">
+                  {{ data.time}}
+                </div>
+                <div class="cell" data-title="Signal">
+                  {{ data.signal}}
+                </div>
+                <div class="cell" data-title="ENTRY">
+                  {{ data.entry}}
+                </div>
+                <div class="cell" data-title="TARGET">
+                  {{ data.target}}
+                </div>
+                <div class="cell" data-title="ADVISORY">
+                  {{ data.advisory}}
+                </div>
+                </div>
+
+                {% endfor %}
+                
+                
+                  
+              </div>
+  
+  
+  
+              </div>
+   
+          </div>
+    
+
+
+    
+
+    <!-- <div class="project-box-wrapper">
+      <div class="project-box" style="background-color: #e9e7fd;">
+        <div class="project-box-header">
+          <span>December 10, 2020</span>
+          <div class="more-wrapper">
+            <button class="project-btn-more">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                <circle cx="12" cy="12" r="1" />
+                <circle cx="12" cy="5" r="1" />
+                <circle cx="12" cy="19" r="1" /></svg>
+            </button>
+          </div>
+        </div>
+        <div class="project-box-content-header">
+          <p class="box-content-header">Testing</p>
+          <p class="box-content-subheader">Prototyping</p>
+        </div>
+        <div class="box-progress-wrapper">
+          <p class="box-progress-header">Progress</p>
+          <div class="box-progress-bar">
+            <span class="box-progress" style="width: 50%; background-color: #4f3ff0"></span>
+          </div>
+          <p class="box-progress-percentage">50%</p>
+        </div>
+        <div class="project-box-footer">
+          <div class="participants">
+            <img src="https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1215&q=80" alt="participant">
+            <img src="https://images.unsplash.com/photo-1583195764036-6dc248ac07d9?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2555&q=80" alt="participant">
+            <button class="add-participant" style="color: #4f3ff0;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+            </button>
+          </div>
+          <div class="days-left" style="color: #4f3ff0;">
+            2 Days Left
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="project-box-wrapper">
+      <div class="project-box">
+        <div class="project-box-header">
+          <span>December 10, 2020</span>
+          <div class="more-wrapper">
+            <button class="project-btn-more">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                <circle cx="12" cy="12" r="1" />
+                <circle cx="12" cy="5" r="1" />
+                <circle cx="12" cy="19" r="1" /></svg>
+            </button>
+          </div>
+        </div>
+        <div class="project-box-content-header">
+          <p class="box-content-header">Svg Animations</p>
+          <p class="box-content-subheader">Prototyping</p>
+        </div>
+        <div class="box-progress-wrapper">
+          <p class="box-progress-header">Progress</p>
+          <div class="box-progress-bar">
+            <span class="box-progress" style="width: 80%; background-color: #096c86"></span>
+          </div>
+          <p class="box-progress-percentage">80%</p>
+        </div>
+        <div class="project-box-footer">
+          <div class="participants">
+            <img src="https://images.unsplash.com/photo-1587628604439-3b9a0aa7a163?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjR8fHdvbWFufGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60" alt="participant">
+            <img src="https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1215&q=80" alt="participant">
+            <button class="add-participant" style="color: #096c86;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+            </button>
+          </div>
+          <div class="days-left" style="color: #096c86;">
+            2 Days Left
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="project-box-wrapper">
+      <div class="project-box" style="background-color: #ffd3e2;">
+        <div class="project-box-header">
+          <span>December 10, 2020</span>
+          <div class="more-wrapper">
+            <button class="project-btn-more">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                <circle cx="12" cy="12" r="1" />
+                <circle cx="12" cy="5" r="1" />
+                <circle cx="12" cy="19" r="1" /></svg>
+            </button>
+          </div>
+        </div>
+        <div class="project-box-content-header">
+          <p class="box-content-header">UI Development</p>
+          <p class="box-content-subheader">Prototyping</p>
+        </div>
+        <div class="box-progress-wrapper">
+          <p class="box-progress-header">Progress</p>
+          <div class="box-progress-bar">
+            <span class="box-progress" style="width: 20%; background-color: #df3670"></span>
+          </div>
+          <p class="box-progress-percentage">20%</p>
+        </div>
+        <div class="project-box-footer">
+          <div class="participants">
+            <img src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80" alt="participant">
+            <img src="https://images.unsplash.com/photo-1587628604439-3b9a0aa7a163?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjR8fHdvbWFufGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60" alt="participant">
+            <button class="add-participant" style="color: #df3670;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+            </button>
+          </div>
+          <div class="days-left" style="color: #df3670;">
+            2 Days Left
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="project-box-wrapper">
+      <div class="project-box" style="background-color: #c8f7dc;">
+        <div class="project-box-header">
+          <span>December 10, 2020</span>
+          <div class="more-wrapper">
+            <button class="project-btn-more">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                <circle cx="12" cy="12" r="1" />
+                <circle cx="12" cy="5" r="1" />
+                <circle cx="12" cy="19" r="1" /></svg>
+            </button>
+          </div>
+        </div>
+        <div class="project-box-content-header">
+          <p class="box-content-header">Data Analysis</p>
+          <p class="box-content-subheader">Prototyping</p>
+        </div>
+        <div class="box-progress-wrapper">
+          <p class="box-progress-header">Progress</p>
+          <div class="box-progress-bar">
+            <span class="box-progress" style="width: 60%; background-color: #34c471"></span>
+          </div>
+          <p class="box-progress-percentage">60%</p>
+        </div>
+        <div class="project-box-footer">
+          <div class="participants">
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80" alt="participant">
+            <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTB8fG1hbnxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60" alt="participant">
+            <button class="add-participant" style="color: #34c471;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+            </button>
+          </div>
+          <div class="days-left" style="color: #34c471;">
+            2 Days Left
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="project-box-wrapper">
+      <div class="project-box" style="background-color: #d5deff;">
+        <div class="project-box-header">
+          <span>December 10, 2020</span>
+          <div class="more-wrapper">
+            <button class="project-btn-more">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                <circle cx="12" cy="12" r="1" />
+                <circle cx="12" cy="5" r="1" />
+                <circle cx="12" cy="19" r="1" /></svg>
+            </button>
+          </div>
+        </div>
+        <div class="project-box-content-header">
+          <p class="box-content-header">Web Designing</p>
+          <p class="box-content-subheader">Prototyping</p>
+        </div>
+        <div class="box-progress-wrapper">
+          <p class="box-progress-header">Progress</p>
+          <div class="box-progress-bar">
+            <span class="box-progress" style="width: 40%; background-color: #4067f9"></span>
+          </div>
+          <p class="box-progress-percentage">40%</p>
+        </div>
+        <div class="project-box-footer">
+          <div class="participants">
+            <img src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80" alt="participant">
+            <img src="https://images.unsplash.com/photo-1583195764036-6dc248ac07d9?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2555&q=80" alt="participant">
+            <button class="add-participant" style="color: #4067f9;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+            </button>
+          </div>
+          <div class="days-left" style="color: #4067f9;">
+            2 Days Left
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
+  
+
+
+
+
+</div>
+
+
+
+
+    </div>
+</div>
+</div>
+
+
+
+  <footer>
+    <div id="time"></div>
+    <p class="box-content-header">Terms & Conditions</p>
+    <span class="fa fa-star checked">Only Intraday </span>&nbsp;&nbsp;
+    <span class="fa fa-star checked">Margin Requirments minimum Rs.1,50,000</span>&nbsp;&nbsp;
+    <span class="fa fa-star checked">Calls/Per Day Minimum 140 Points(1 LOTS)</span>&nbsp;&nbsp;
+    <span class="fa fa-star checked">No Stop Loss</span>&nbsp;&nbsp;
+    <span class="fa fa-star checked">For Month 13 to 17 Calls</span>&nbsp;&nbsp;
+    <div class="container">
+
+      <!--foote_bottom_ul_amrc ends here-->
+      <!-- <p class="text-center">Copyright @2017 | Designed With by <a href="#">Manoj</a></p> -->
+      
+      
+      <!--social_footer_ul ends here-->
+      </div>
+
+    <p>Copyright | &copy; 2021 | Designed by <a href="#">Datasacks</a></p>
+
+  </footer>
+
+
+  <!-- <footer class="SiteFooterStyles_linkFooter-1kxUO" id="link-footer"><div class="width-wrapper SiteFooterStyles_linkFooterInside-1BKiq" id="link-footer-width-wrapper"><nav id="link-footer-codepen-links" aria-label="Links about CodePen"><h4>CodePen</h4><a href="/about/">About</a><a href="http://blog.codepen.io/">Blog</a><a href="http://blog.codepen.io/radio/">Podcast</a><a href="https://www.notion.so/csstricks/Sponsorship-Possibilities-cb5b33a3f6f64c239220547fe7965d78">Advertising</a><a href="http://blog.codepen.io/documentation">Docs</a><a href="/support/">Support</a><a href="https://cottonbureau.com/people/codepen-team">Shop</a></nav><nav id="link-footer-for-links" aria-label="CodePen for different uses"><h4>For</h4><a href="/features/teams">Teams</a><a href="/features/education">Education</a><a href="/features/privacy">Privacy</a><a href="/features/embeds">Documentation</a><a href="/features/asset-hosting">Asset Hosting</a></nav><nav id="link-footer-social-links" aria-label="CodePen on Social Media"><h4>Social</h4><a href="https://www.youtube.com/c/CodePenOfficial">YouTube</a><a href="https://twitter.com/CodePen">Twitter</a><a href="https://www.instagram.com/codepen/">Instagram</a></nav><nav id="link-footer-community-links" aria-label="CodePen Community"><h4>Community</h4><a href="/spark/">Spark</a><a href="/challenges/">Challenges</a><a href="/topics/">Topics</a><a href="https://blog.codepen.io/legal/code-conduct/">Code of Conduct</a></nav><div class="SiteFooterStyles_copyright-3_Vmr" id="link-footer-copyright"><h1 class="Logo_root-3zk-k" data-test-id="logo"><a href="/" class="Logo_small-2B4GZ"><svg viewBox="0 0 100 100"><path d="M100 34.2c-.4-2.6-3.3-4-5.3-5.3-3.6-2.4-7.1-4.7-10.7-7.1-8.5-5.7-17.1-11.4-25.6-17.1-2-1.3-4-2.7-6-4-1.4-1-3.3-1-4.8 0-5.7 3.8-11.5 7.7-17.2 11.5L5.2 29C3 30.4.1 31.8 0 34.8c-.1 3.3 0 6.7 0 10v16c0 2.9-.6 6.3 2.1 8.1 6.4 4.4 12.9 8.6 19.4 12.9 8 5.3 16 10.7 24 16 2.2 1.5 4.4 3.1 7.1 1.3 2.3-1.5 4.5-3 6.8-4.5 8.9-5.9 17.8-11.9 26.7-17.8l9.9-6.6c.6-.4 1.3-.8 1.9-1.3 1.4-1 2-2.4 2-4.1V37.3c.1-1.1.2-2.1.1-3.1 0-.1 0 .2 0 0zM54.3 12.3L88 34.8 73 44.9 54.3 32.4V12.3zm-8.6 0v20L27.1 44.8 12 34.8l33.7-22.5zM8.6 42.8L19.3 50 8.6 57.2V42.8zm37.1 44.9L12 65.2l15-10.1 18.6 12.5v20.1zM50 60.2L34.8 50 50 39.8 65.2 50 50 60.2zm4.3 27.5v-20l18.6-12.5 15 10.1-33.6 22.4zm37.1-30.5L80.7 50l10.8-7.2-.1 14.4z"></path></svg><span class="screen-reader-text">CodePen Home</span></a><a href="/" class="Logo_large-D-UjR"><svg viewBox="0 0 138 26" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" title="CodePen"><path d="M15 8a7 7 0 100 10m7-8.7L33 2l11 7.3v7.4L33 24l-11-7.3zm0 0l11 7.4 11-7.4m0 7.4L33 9.3l-11 7.4M33 2v7.3m0 7.4V24M52 6h5a7 7 0 010 14h-5zm28 0h-9v14h9m-9-7h6m11 1h6a4 4 0 000-8h-6v14m26-14h-9v14h9m-9-7h6m11 7V6l11 14V6"></path></svg><span class="screen-reader-text">CodePen Home</span></a></h1><p>©2021 CodePen</p><p class="slogan"><em>Demo or it didn't happen.</em></p></div></div></footer> -->
+
+</body>
+</html>

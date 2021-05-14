@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/testing.css'%}">
+    <!-- <link href='https://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600,700' rel='stylesheet' type='text/css'>  -->
+    <!-- <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+</head>
+
+<!-- <header role="banner">
+    <ul class="utilities">
+      {% if user.is_authenticated %}
+      <li class="users"><a style="text-decoration: none;" >{{user.username}}</a></li>
+      <li class="logout warn"><a href="{% url 'logout' %}" style="text-decoration: none;" >Log Out</a></li>
+      {% endif %}
+    </ul>
+</header> -->
+
+<body>
+
+    <div id="myDIV">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- <a class="fas fa-archway" href="#"></a> -->
+        <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'adddata' %}">User Management</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'userlist' %}">User List</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'userlist' %}">Option Chain</a>
+            </li>
+          </ul>
+          <ul class="utilities">
+            {% if user.is_authenticated %}
+            <li class="users"><a style="text-decoration: none;" >{{user.username}}</a></li>
+            <li class="logout warn"><a href="{% url 'logout' %}" style="text-decoration: none;" >Log Out</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+
+    </div>
+
+    <div class="container-xxl">
+        <h2 class="text-center alert alert-danger">Vinosanse User Management</h2>
+        {% block content %} {% endblock content %}
+    </div>
+    <script src="{% static 'js/jquery.js '%}"></script>
+    <script src="{% static 'js/popper.js '%}"></script>
+    <script src="{% static 'js/bootstrap.js '%}"></script>
+
+    <script>
+        // Add active class to the current button (highlight it)
+        var header = document.getElementById("myDIV");
+        var btns = header.getElementsByClassName("nav-link");
+        for (var i = 0; i < btns.length; i++) {
+          btns[i].addEventListener("click", function() {
+          var current = document.getElementsByClassName("active");
+          current[0].className = current[0].className.replace(" active", "");
+          this.className += " active";
+          });
+        }
+
+        $(".nav .nav-link").on("click", function(){
+        $(".nav").find(".active").removeClass("active");
+        $(this).addClass("active");
+        });
+
+
+        </script>
+
+
+</body>
+</html>

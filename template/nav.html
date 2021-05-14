@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Report Automation</title>
+  <base href="./">
+
+
+
+
+<style>
+  
+
+.btn-disabled,
+.btn-disabled[disabled] {
+  /* opacity: 0; */
+  cursor: default !important;
+  pointer-events: none;
+  background-color: #666;
+  color:white;
+  font-size: .99em;
+}
+
+
+
+.disabled{
+  /* opacity: 0; */
+  pointer-events: none;
+  color: black;
+}
+
+
+
+
+
+
+/* body style */
+body { 
+  background:white; 
+  font-family:"Trebuchet MS";
+  letter-spacing:.1em;
+  margin:5em;
+  text-transform:uppercase;
+  }
+
+
+h1{
+  position: absolute;
+  top: 0;
+  left: 28%;
+  font-family:"Trebuchet MS";
+  text-transform:uppercase;
+  text-size-adjust: 100px;
+}
+
+nav {
+	text-align: center;
+	font-size: 1.25em;
+  }	
+
+nav ul {
+  border-radius: .25em;   
+  background:#ccc;
+  list-style:none;
+  text-align: left;
+  }
+ul {
+  border-radius: .25em;   
+  background:#ccc;
+  list-style:none;
+  text-align: left;
+  }
+
+nav li { 
+  position:relative; 
+  display:inline-block; 
+  border-bottom: none;
+  border-radius: .25em .25em 0 0;
+}
+
+
+nav a { 
+  color:#f47321;
+  display:block;
+  padding: .5em;  
+  text-decoration:none;
+
+  }
+
+  nav a:hover {
+  border-radius: 0 0 .25em .25em;
+  background: #f47321;
+  box-shadow: 0 5px 0 #dc6519;
+  color:white;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+  }
+
+    /*Highlight Home button
+-----------------------------------------------*/
+.home { box-shadow: 0 -5px 0 #f47321; }
+
+
+.home a {
+	background: #f47321;
+	box-shadow: 0 5px 0 #dc6519;
+	color:white;
+	border-radius: 0 0 .25em .25em;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+  }
+
+
+
+  /* Style the buttons */
+.btn {
+  border: none;
+  outline: none;
+  padding: 8px 12px;
+  background-color: #f1f1f1;
+  /* cursor: pointer; */
+}
+
+/* Style the active class (and buttons on mouse-over) */
+.active, .btn:hover {
+  background-color: #666;
+  color: white;
+}
+
+.demo-title {
+  text-align: center;
+  color: black;
+text-align: center;
+
+}
+
+ header[role=banner] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    height: 75px;
+  } 
+ 
+  header[role=banner] .utilities {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: transparent;
+    color:black;
+    width: auto;
+  }
+   
+  header[role=banner] .utilities li {
+    display: inline-block;
+    color: black;
+  }
+
+/* header */
+.utilities a:before {
+  content: "\f248";
+  font-family: FontAwesome;
+  padding-right: .2em;
+}
+
+.logout a:before {
+  content: "";
+  color: #f47321;
+}
+
+.users a:before {
+  content: "";
+  color: #f47321;
+}
+
+ header[role=banner] .utilities li a {
+    padding: .1em .10em;
+  }
+
+
+
+</style>
+</head>
+<header role="banner">
+    <ul class="utilities">
+      {% if user.is_authenticated %}
+      <li class="users"><a style="text-decoration: none;" >{{user.username}}</a></li>
+      <li class="logout warn"><a href="{% url 'logout' %}" style="text-decoration: none;" >Log Out</a></li>
+      {% endif %}
+    </ul>
+</header>
+
+<body>
+
+    <!-- demo-title -->
+<div class="demo-title" style="text-align: center;">
+	<h1 class="display-1"> Login Audit Report Dashboard </h1>
+</div>
+
+  
+    <nav>
+        <ul>
+    
+          <li class="home">
+              <a href="{% url 'home' %}"><i class="fa fa-home"></i></a>
+          </li>
+
+          <li>
+              <a href="{% url 'chartsform' %}" class="{{ charts_form }}" >Charts</a>
+          </li>
+
+          <li>
+              <a href="{% url 'upload' %}" class="{{ upload }}" >Upload</a>
+          </li>
+
+          {% if request.user.is_superuser %}
+            <li><a href="{% url 'delete' %}" class="{{ delete_form }}">Delete</a></li>
+          {% endif %}
+          
+
+        </ul>
+      </nav>
+
+  
+</body>
+</html>
