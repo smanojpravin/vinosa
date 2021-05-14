@@ -29,7 +29,7 @@ def home(request):
     niftydata = nifty.objects.all()
     bankniftydata = banknifty.objects.all()
     context = {'niftydata':niftydata,'bankniftydata':bankniftydata}
-    return render(request, 'home.html',context)
+    return render(request, 'dashboard.html',context)
 
 def welcome(request):
     return render(request, 'testing.html')
